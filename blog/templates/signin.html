@@ -1,67 +1,80 @@
-{% extends "layout.html" %}
-
-{% block css%}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-{% endblock %}
-
-{% block body%}
-<div class="global-container">
-	<div class="card login-form">
-        <div class="card-body">
-            <h2 class="card-title text-center font-weight-bold">サインアップ</h3>
-            <div class="card-text">
-                <form action="/login" method=post autocomplete="off">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">ユーザ名</label>
-                        <input type="text" name="username" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">パスワード</label>
-                        <input type="password" name="password" class="form-control form-control-sm" id="exampleInputPassword1">
-                    </div>
-                    <div class="form-group">
-                            <label for="sex">性別</label>
-                        <div class="form-check form-check-inline ml-5">
-                            <input class="form-check-input" type="radio" name="sex" id="inlineRadio1" value="0">
-                            <label class="form-check-label" for="inlineRadio1">姓</label>
-                          </div>
-                        <div class="form-check form-check-inline ml-2">
-                            <input class="form-check-input" type="radio" name="sex" id="inlineRadio2" value="1">
-                            <label class="form-check-label" for="inlineRadio2">男</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">学年</label>
-                        <input type="text" name="school_year" class="form-control form-control-sm" id="exampleInputPassword1">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">学年</label>
-                        <input type="text" name="school_year" class="form-control form-control-sm" id="exampleInputPassword1">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">力を入れたい科目</label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                          </select>
-                          <select class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                          </select>
-                        <input type="text" name="school_year" class="form-control form-control-sm" id="exampleInputPassword1">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">サインアップ</button>
-                    <div class="sign-up">
-                        <a href="{{ url_for('login') }}"><b>アカウトを持っています。</b></a>
-                    </div>
-                </form>
-            </div>
-        </div>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="一生に頑張ろう">
+    <title>頑張ろう</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sign-up.css') }}">
+</head>
+<body class="sign-up text-center">
+<section class="body align-content-center text-center">
+    <div class="title mb-4">
+        <h2>アカウント作成</h2>
     </div>
-</div>
-
-{% endblock %}
+    <form class="form-signup text-center align-content-center mt-3">
+        <div class="form-group d-flex row">
+            <label class="col-3" for="username">ユーザ名</label>
+            <input class="col-8" type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="ユーザ名を入力してください">
+        </div>
+        <div class="form-group row d-flex">
+            <label class="col-3" for="exampleInputPassword1">パスワード</label>
+            <input class="col-8" name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="パスワードを入力してください">
+        </div>
+        <fieldset class="form-group">
+            <div class="row d-flex">
+                <legend class="col-3">性別</legend>
+                <div class="col-8 d-flex justify-content-around">
+                    <div class="form-check form-check-inline">
+                        <input name="sex" class="form-check-input" type="radio" id="gridRadios1" value="0" checked>
+                        <label class="form-check-label" for="gridRadios1">男</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="sex" id="gridRadios2" value="1">
+                        <label class="form-check-label" for="gridRadios2">女</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="sex" id="gridRadios3" value="">
+                        <label class="form-check-label" for="gridRadios3">非公開</label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group d-flex row">
+            <label class="col-3" for="username">学年</label>
+            <input class="col-8" type="text" name="school_year" class="form-control" id="school_year" placeholder="学年を入力してください">
+        </div>
+        <div class="form-group d-flex row form-check-inline">
+            <label class="col-3" for="tag">力を入れたい科目</label>
+            <select class="form-control col-2 mr-3 ml-2" id="exampleFormControlSelect1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+            <select class="form-control col-2 mr-3" id="exampleFormControlSelect1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+            <select class="form-control col-2" id="exampleFormControlSelect1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+        </div>
+        <button type="submit" class="btn">決定</button>
+    </form>
+</section>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</body>
+</html>
