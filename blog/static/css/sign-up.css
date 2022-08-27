@@ -1,0 +1,46 @@
+.sign-up {
+    background: linear-gradient(206.62deg, #00A3FF 24.29%, #4BF297 75.65%, #51F88F 80.33%, #57FF86 80.34%), linear-gradient(180deg, #00A3FF 0%, #00A3FF 100%);
+}
+
+.body {
+    padding: 5px;
+    width: 600px;
+    height: 500px;
+    left: 255px;
+    top: 136px;
+    color: #29963B;
+    background: #FFFFFF;
+    border-radius: 40px;
+    margin: auto;
+    margin-top: 130px;
+
+}
+
+.title {
+    padding-top: 25px;
+}
+.btn {
+    background: #12B5BF;
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 23px;
+    padding: 0 35px;
+    align-items: center;
+}
+
+input, select {
+    background-color: #DEDEDE !important;
+    border: none;
+    height: 40px;
+}
+
+input[type="radio"] {
+    height: 20px;
+    width: 20px;
+}
+
+label, legend {
+    font-size: 20px;
+    font-weight: 400;
+}
