@@ -1,0 +1,51 @@
+html {
+    background: linear-gradient(206.62deg, #00A3FF 24.29%, #4BF297 75.65%, #51F88F 80.33%, #57FF86 80.34%), linear-gradient(180deg, #00A3FF 0%, #00A3FF 100%);
+}
+
+body,
+.global-container {
+    background-color: inherit !important;
+}
+
+.login-form {
+    color: #29963B;
+    width: 900px;
+    margin: auto;
+    margin-top: 80px;
+    border-radius: 50px;
+}
+
+.category {
+    display: flex;
+}
+
+.category > label {
+    width: 200px;
+}
+
+.category > input {
+    width: 70%;
+}
+
+.login-form button {
+    width: 300px;
+    margin: auto;
+    background-color: #12B5BF;
+    color: #FFFFFF;
+    border: 1px solid #12B5BF;
+}
+
+.sign-up {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.sign-up > a {
+    color: #29963B;
+}
+
+.form-select {
+    width: 150px;
+    margin-right: 20px;
+    text-align: center;
+}
