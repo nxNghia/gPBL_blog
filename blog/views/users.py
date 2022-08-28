@@ -9,7 +9,7 @@ def signup():
             username = request.form['username'],
             password = request.form['password'],
             point = 0,
-            gender = request.form['gender']
+            gender = request.form['sex']
         )
 
         db.session.add(user)

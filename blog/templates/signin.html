@@ -13,7 +13,7 @@
     <div class="title mb-4">
         <h2>アカウント作成</h2>
     </div>
-    <form class="form-signup text-center align-content-center mt-3">
+    <form class="form-signup text-center align-content-center mt-3" action="{{ url_for('signup') }}" method=post autocomplete="off">
         <div class="form-group d-flex row">
             <label class="col-3" for="username">ユーザ名</label>
             <input class="col-8" type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="ユーザ名を入力してください">
@@ -27,15 +27,15 @@
                 <legend class="col-3">性別</legend>
                 <div class="col-8 d-flex justify-content-around">
                     <div class="form-check form-check-inline">
-                        <input name="sex" class="form-check-input" type="radio" id="gridRadios1" value="0" checked>
+                        <input name="sex" class="form-check-input" type="radio" id="gridRadios1" value="1" checked>
                         <label class="form-check-label" for="gridRadios1">男</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="sex" id="gridRadios2" value="1">
+                        <input class="form-check-input" type="radio" name="sex" id="gridRadios2" value="0">
                         <label class="form-check-label" for="gridRadios2">女</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="sex" id="gridRadios3" value="">
+                        <input class="form-check-input" type="radio" name="sex" id="gridRadios3" value="-1">
                         <label class="form-check-label" for="gridRadios3">非公開</label>
                     </div>
                 </div>
