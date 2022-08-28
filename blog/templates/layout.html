@@ -8,42 +8,72 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Dosis:300,400,500,,600,700,700i|Lato:300,300i,400,400i,700,700i" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     {% block css%} {% endblock %}
 </head>
 {% block class%} {% endblock %}
-<nav class="header">
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{{ url_for('show_entries') }}">Cheer On</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="nav navbar-nav navbar-right">
+<nav class="header navbar navbar-expand-lg navbar-white bg-white">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto row col-12">
+            <li class="nav-item menu col-1">
+                <div class="w3-sidebar w3-bar-block w3-border-right menu-item" style="display:none; width: 300px;" id="mySidebar">
+                    <div class="d-flex flex-column">
+                        <span onclick="w3_close()" class="w3-large text-right mr-4"> &times;</span>
+                        <div class="d-flex flex-column pl-5" style="gap: 25px;">
+                            <a href="#" class="w3-bar-item">新規投稿</a>
+                            <a href="#" class="w3-bar-item">注目の投稿</a>
+                            <ul>
+                                <li class="mb-3"><a href="#" class="sub-menu text-dark">科目１</a></li>
+                                <li class="mb-3"><a href="#" class="sub-menu text-dark">科目2</a></li>
+                                <li><a href="#" class="sub-menu text-dark">科目3</a></li>
+                            </ul>
+                        <a href="#" class="w3-bar-item">頑張っている人たち</a>
+
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="w3-teal ml-3" id="iconSidebar">
+                    <span class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</span>
+                </div>
+            </li>
+            <li class="nav-item col-10 d-flex align-items-center text-center align-item-center justify-content-center">
+                <form class="form-inline my-2 my-lg-0">
+                    <div class="search-input">
+                        <img src="{{ url_for('static', filename='img/search.svg') }}">
+                        <input class="mr-3 px-5 py-4" type="search" aria-label="Search">
+                    </div>
+                    <select class="px-2 py-4">
+                        <option></option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                    </select>
+                </form>
+            </li>
+            <li class="nav-item dropdown col-1 d-flex justify-content-end">
+                <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="{{ url_for('static', filename='img/man-avatar.png') }}">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% if not session.logged_in %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('login') }}">ログイン</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('signup') }}">サインアップ</a>
-                    </li>
+                        <a class="dropdown-item" href="{{ url_for('login') }}">ログイン</a>
+                        <a class="dropdown-item" href="{{ url_for('signup') }}">サインアップ</a>
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}">ログアウト</a>
-                    </li>
+                        <a class="dropdown-item" href="{{ url_for('logout') }}">ログアウト</a>
                     {% endif %}
-                </ul>
-            </div>
-        </nav>
-    
-        {% for message in get_flashed_messages() %}
-        <div class="alert alert-info" role="alert">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div> 
+                </div>
+            </li>
+        </ul>
+    </div>
 </nav>
+<!-- Message Error -->
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-info" role="alert">
+        {{ message }}
+    </div>
+{% endfor %}
 <section class="body mt-3 container">
     {% block body%} {% endblock %}
 </section>
@@ -53,5 +83,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="application/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>
