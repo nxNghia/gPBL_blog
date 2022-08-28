@@ -1,0 +1,84 @@
+.list-user {
+    background-image: url('/static/img/background1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.title h2 {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    color: #29963B;
+}
+
+.user {
+    background: #D9D9D9;
+    border-radius: 40px;
+}
+
+.ul {
+    background: #D9D9D9;
+    border-radius: 40px;
+}
+
+li {
+    background: #FFFFFF;
+    border-radius: 40px;
+    border: 1px;
+    list-style: none;
+}
+
+.avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.avatar span {
+    background-color: #D9D9D9;
+    font-size: 20px;
+    font-weight: 400px;
+}
+
+a {
+    font-size: 40px;
+}
+
+.user-infor .content {
+    background-color: #D9D9D9;
+}
+
+.user-infor p, a{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.user-infor p span {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.btn {
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #D9D9D9;
+    color: #29963B;
+
+}
+
+.tag-user {
+    color: #29963B;
+    gap: 40px;
+    margin-right: 70px;
+}
+
+.tag-user span{
+    font-size: 18px;
+}
+
+.tag-user .tag-title {
+    font-size: 20px;
+}
+
+.tag-user .item {
+    background-color: #D9D9D9;
+}
