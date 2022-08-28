@@ -17,3 +17,7 @@ def signup():
         return redirect(url_for('show_entries'))
     else:
         return render_template('signin.html')
+
+@app.route('/user/index', methods=['GET'])
+def user_index():
+    return render_template('list-user.html')

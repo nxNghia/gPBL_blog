@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     {% block css%} {% endblock %}
 </head>
-<body class="body">
+{% block class%} {% endblock %}
 <nav class="header">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -44,7 +44,7 @@
         {% endfor %}
     </div> 
 </nav>
-<section class="body">
+<section class="body mt-3 container">
     {% block body%} {% endblock %}
 </section>
 <footer>
