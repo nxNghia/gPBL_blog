@@ -21,3 +21,8 @@ def signup():
 @app.route('/user/index', methods=['GET'])
 def user_index():
     return render_template('list-user.html')
+
+@app.route('/user', methods=['GET', 'POST'])
+def get_user():
+    if request.method == 'GET':
+        return render_template('user/user-info.html')
