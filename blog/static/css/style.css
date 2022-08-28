@@ -1,0 +1,67 @@
+#iconSidebar span {
+    color: #DEDEDE;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+ul .menu {
+    position: relative;
+}
+.header li {
+    border-radius: none;
+}
+.menu-item {
+    position: absolute;
+    height: 1000px;
+    width: 250px;
+    background-color: #FFFFFF;
+    z-index: 99;
+}
+
+.w3-sidebar .w3-bar-item {
+    color: #29963B;
+    font-size: 20px;
+}
+
+.header .nav-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.w3-sidebar span {
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.w3-sidebar ul li {
+    text-decoration: none;
+    list-style: none;
+}
+
+.header input, .header select {
+    background-color: #DEDEDE;
+    height: 40px;
+    border: none;
+}
+
+.header input {
+   width: 800px;
+}
+
+.header select {
+    width: 100px;
+}
+
+.header form .search-input {
+    position: relative;
+    display: inline-block;
+}
+
+.header .search-input img{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 7px;
+}
+
