@@ -9,7 +9,8 @@ def signup():
             username = request.form['username'],
             password = request.form['password'],
             point = 0,
-            gender = request.form['sex']
+            gender = request.form['sex'],
+            school_year = request.form['school_year']
         )
 
         db.session.add(user)
@@ -25,4 +26,5 @@ def user_index():
 @app.route('/user', methods=['GET', 'POST'])
 def get_user():
     if request.method == 'GET':
-        return render_template('user/user-info.html')
+        print(session['logged_in'])
+        return render_template('user/user-info.html', user_info=session['logged_in'])

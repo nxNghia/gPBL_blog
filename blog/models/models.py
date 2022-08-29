@@ -8,6 +8,7 @@ class User(db.Model):
     password = db.Column(db.String(128), nullable=False)
     point = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.Integer, nullable=False)
+    school_year = db.Column(db.Integer, nullable=False)
 
     # def __init__(self, data):
     #     """
@@ -20,7 +21,7 @@ class User(db.Model):
     #     self.gender = data.get('gender')
 
     def __repr__(self):
-        return '<User id:{} username:{} password:{} point:{} gender:{}>'.format(self.id, self.username, self.password, self.point, self.gender)
+        return '<User id:{} username:{} password:{} point:{} gender:{} school_year:{}>'.format(self.id, self.username, self.password, self.point, self.gender, self.school_year)
 
 class Posts(db.Model):
     __tablename__ = 'posts'

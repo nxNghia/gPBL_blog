@@ -19,7 +19,7 @@
                 <img class="avatar" src="https://i.pravatar.cc/300" alt="avatar" />
             </div>
             <div class="header-info">
-                <span>ABC ABC ABC</span>
+                <span>{{ user_info.username }}</span>
                 <div class="button-group">
                     <a href="#">フォロー</a>
                     <a href="#">フォロワー</a>
@@ -32,11 +32,11 @@
         <div class="category-group">
             <div class="category">
                 <label>学年</label>
-                <span>3</span>
+                <span>{{ user_info.school_year }}</span>
             </div>
             <div class="category">
                 <label>性別</label>
-                <span>男性</span>
+                <span>{{ user_info.gender }}</span>
             </div>
         </div>
         <div class="category">
@@ -64,11 +64,11 @@
         </div>
         <div class="category">
             <label>累計ポイント</label>
-            <span>20</span>
+            <span>{{ user_info.point }}</span>
         </div>
     </div>
 
-    <div class="detail-info update-info">
+    <!-- <div class="detail-info update-info">
         <div class="category">
             <label>ユーザ名</label>
             <input value="ABC ABC ABC" />
@@ -119,7 +119,7 @@
                 </select>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="task">
         <div class="title">

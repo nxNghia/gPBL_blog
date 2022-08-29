@@ -15,13 +15,14 @@ def login():
         if users is None:
             flash('ユーザ名やパスワードが正しくない。')
         else:
-            print(users.id)
+            print(users)
             _session = {
                 "id": users.id,
                 "username": users.username,
                 "password": users.password,
                 "point": users.point,
-                "gender": users.gender
+                "gender": users.gender,
+                "school_year": users.school_year
             }
             session['logged_in'] = _session
             return redirect(url_for('get_user'))
