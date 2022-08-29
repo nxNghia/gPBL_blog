@@ -1,0 +1,79 @@
+html {
+    background-image: url('../img/background2.jpg');
+}
+
+body {
+    background-color: transparent;
+}
+
+.create-form {
+    width: 900px;
+    margin: auto;
+}
+.row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    color: #FFFFFF;
+}
+
+.button-group > input {
+    color: #FFFFFF;
+}
+
+.posting-field {
+    display: block;
+    width: 100px;
+    background-color: #FFFFFF;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.cancel-btn {
+    border: 1px solid #000000;
+    line-height: 30px;
+    text-align: center;
+    background-color: #12B5BF;
+}
+
+.save-btn {
+    background-color: #12B5BF;
+}
+
+.cancel-btn,
+.save-btn {
+    cursor: pointer;
+    width: 100px;
+    height: 30px;
+    border: none;
+    margin: 0px 10px;
+}
+
+textarea {
+    width: 800px;
+    border: 1px solid #FFFFFF;
+}
+
+.title-input {
+    width: 800px;
+    border: 1px solid #FFFFFF;
+}
+
+.tag-selection {
+    width: 200px;
+}
+
+.posting-content {
+    align-items: flex-start;
+}
+
+.date-selecting-box {
+    width: 200px;
+}

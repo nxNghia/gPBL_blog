@@ -27,9 +27,12 @@ class Post(db.Model):
     __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
     content = db.Column(db.String(500), nullable=False)
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
     type = db.Column(db.Boolean, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    deadline = db.Column(db.Date, nullable=True)
 
     # def __init__(self, data):
     #     """
@@ -40,7 +43,7 @@ class Post(db.Model):
     #     self.type = data.get('type')
 
     def __repr__(self):
-        return '<Posts id:{} content:{} tag_id:{} type:{}>'.format(self.id, self.content, self.tag_id, self.type)
+        return '<Posts id:{} title:{} content:{} tag_id:{} type:{} user_id:{} deadline:{}>'.format(self.id, self.title, self.content, self.tag_id, self.type, self.user_id, self.deadline)
 
 class Tag(db.Model):
     __tablename__ = 'tags'
