@@ -246,3 +246,13 @@
     cursor: default;
     background-color: transparent !important;
 }
+
+.user-detail .btn-edit {
+    font-size: 20px;
+}
+
+.user-detail .btn-edit a {
+    background-color: #12B5BF;
+    border-radius: 20px;
+    color: #FFFFFF;
+}
