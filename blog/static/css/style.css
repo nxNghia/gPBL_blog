@@ -1,3 +1,7 @@
+body {
+    position: relative;
+}
+
 #iconSidebar span {
     color: #DEDEDE;
     font-size: 50px;
@@ -11,11 +15,14 @@ ul .menu {
     border-radius: none;
 }
 .menu-item {
-    position: absolute;
+    position: fixed;
     height: 1000px;
     width: 250px;
     background-color: #FFFFFF;
     z-index: 99;
+    box-shadow: #D9D9D9 5px 5px 5px;
+    top: 0;
+    height: 100%;
 }
 
 .w3-sidebar .w3-bar-item {
