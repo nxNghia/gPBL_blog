@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, render_template, flash, session
 from blog import app, db
-from blog.models.models import User
+from blog.models.models import User, Tag, UserTag
 
 @app.route('/user/create', methods=['POST', 'GET'])
 def signup():
@@ -15,9 +15,44 @@ def signup():
 
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('show_entries'))
+
+        userTags = []
+
+        if request.form['tag1'] != '-1':
+            userTags.append(UserTag(
+                tag_id = request.form['tag1'],
+                user_id = user.id
+            ))
+
+        if request.form['tag2'] != '-1':
+            userTags.append(UserTag(
+                tag_id = request.form['tag2'],
+                user_id = user.id
+            ))
+
+        if request.form['tag3'] != '-1':
+            userTags.append(UserTag(
+                tag_id = request.form['tag3'],
+                user_id = user.id
+            ))
+
+        db.session.add_all(userTags)
+        db.session.commit()
+
+        _session = {
+            "id": user.id,
+            "username": user.username,
+            "password": user.password,
+            "point": user.point,
+            "gender": user.gender,
+            "school_year": user.school_year
+        }
+        session['logged_in'] = _session
+
+        return redirect(url_for('get_user'))
     else:
-        return render_template('signin.html')
+        tags = Tags.query.all()
+        return render_template('signin.html', tags=tags)
 
 @app.route('/user/index', methods=['GET'])
 def user_index():

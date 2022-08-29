@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/post.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="create-form">
+    <form action="{{ url_for('create_post') }}" method=post>
+        <select name="type">
+            <option value="1">投稿</option>
+            <option value="0">タスク</option>
+        </select>
+        <div class="row">
+            <span class="posting-field">タイトル</span>
+            <input name="title" class="title-input" />
+        </div>
+        <div class="posting-content row">
+            <span class="posting-field">本文</span>
+            <textarea name="content" rows="15"></textarea>
+        </div>
+        <div class="tag-selection-container row">
+            <span class="posting-field">タグ</span>
+            <select name="tag_id" class="tag-selection">
+                {% for tag in tags %}
+                <option value="{{ tag.id }}">{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="row">
+            <span class="posting-field">日付</span>
+            <input type="date" class="date-selecting-box" name="deadline" />
+        </div>
+        <div class="button-group">
+            <input type="submit" value="保存" class="save-btn" />
+            <div class="cancel-btn">キャンセル</div>
+        </div>
+    </form>
+</div>
+{% endblock %}
