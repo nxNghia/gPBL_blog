@@ -44,6 +44,7 @@
                         <a class="dropdown-item" href="{{ url_for('login') }}">ログイン</a>
                         <a class="dropdown-item" href="{{ url_for('signup') }}">サインアップ</a>
                     {% else %}
+                        <a class="dropdown-item" href="{{ url_for('get_user') }}">ユーザ情報</a>
                         <a class="dropdown-item" href="{{ url_for('logout') }}">ログアウト</a>
                     {% endif %}
                 </div>
