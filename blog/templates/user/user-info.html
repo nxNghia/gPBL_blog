@@ -28,99 +28,96 @@
         </div>
     </div>
     
-    <div class="detail-info">
+    <div class="detail-info user-display-info">
         <div class="category-group">
             <div class="category">
                 <label>学年</label>
-                <span>{{ user_info.school_year }}</span>
+                <span class="text-dark font-weight-bold">{{ user_info.school_year }}</span>
             </div>
             <div class="category">
                 <label>性別</label>
-                <span>{{ user_info.gender }}</span>
+                <span class="text-dark font-weight-bold">
+                    {% if user_info.gender == 1 %}
+                        男
+                    {% elif user_info.gender == 0 %}
+                        女
+                    {% else %}
+                        非公開
+                    {% endif %}
+                </span>
             </div>
         </div>
         <div class="category">
             <label>力を入れたい科目</label>
             <div>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
+                <span class="text-dark mr-3 font-weight-bold">分野1</span>
+                <span class="mr-3 text-dark font-weight-bold">分野2</span>
+                <span class="text-dark font-weight-bold">分野3</span>
             </div>
         </div>
         <div class="category">
             <label>累計ポイント</label>
-            <span>{{ user_info.point }}</span>
+            <span class="text-dark font-weight-bold">{{ user_info.point }}</span>
         </div>
     </div>
-
-    <!-- <div class="detail-info update-info">
-        <div class="category">
-            <label>ユーザ名</label>
-            <input value="ABC ABC ABC" />
-        </div>
-        <div class="category-group">
+    <div class="detail-info update-info" style="display: none;">
+        <form>
             <div class="category">
-                <label>学年</label>
-                <input value="3" />
+                <label>ユーザ名</label>
+                <input value="{{ user_info.username }}" />
             </div>
-            <div class="category">
-                <label class="">性別</label>
-                <div class="gender-select">
-                    <div class="form-check form-check-inline">
-                        <input name="sex" class="form-check-input" type="radio" id="gridRadios1" value="0" checked>
-                        <label class="form-check-label" for="gridRadios1">男</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="sex" id="gridRadios2" value="1">
-                        <label class="form-check-label" for="gridRadios2">女</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="sex" id="gridRadios3" value="">
-                        <label class="form-check-label" for="gridRadios3">非公開</label>
+            <div class="category-group">
+                <div class="category">
+                    <label>学年</label>
+                    <input name="school_year" value="{{ user_info.school_year }}" />
+                </div>
+                <div class="category">
+                    <label class="">性別</label>
+                    <div class="gender-select">
+                        <div class="form-check form-check-inline">
+                            <input name="sex" class="form-check-input" type="radio" id="gridRadios1" value="1" {{ user_info.gender == 1 and 'checked' or '' }}  >
+                            <label class="form-check-label text-dark font-weight-bold" for="gridRadios1">男</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sex" id="gridRadios2" value="0" {{ user_info.gender == 0 and 'checked' or '' }}>
+                            <label class="form-check-label text-dark font-weight-bold" for="gridRadios2">女</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sex" id="gridRadios3" value="-1" {{ user_info.gender == -1 and 'checked' or '' }}>
+                            <label class="form-check-label text-dark font-weight-bold" for="gridRadios3">非公開</label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="category">
-            <label>力を入れたい科目</label>
-            <div>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
+            <div class="category">
+                <label>力を入れたい科目</label>
+                <div>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>分野</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      </select>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>分野</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>分野</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
             </div>
-        </div>
-    </div> -->
-
+            <div class="d-flex btn-edit justify-content-center">
+                <a type="submit" class="edit-user-submit mr-2 px-3 py-2" href="javascript::void(0)">設定</a>
+                <a class="px-3 py-2 edit-cancel" href="javascript::void(0)">キャンセル</a>
+            </div>
+        </form>
+    </div>
     <div class="task">
         <div class="title">
             <h1>タスク</h1>
