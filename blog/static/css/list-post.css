@@ -21,25 +21,29 @@
 
 .post-title .content {
     background-color: #D9D9D9;
-    height: 80px;
     overflow: hidden;
-   text-overflow: ellipsis;
-   display: -webkit-box;
-   -webkit-line-clamp: 2; /* number of lines to show */
-   -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    line-height: 1.5em;
+    max-height: 3.8em;
 }
 
 .post-content {
-    height: 350px;
     background-color: #D9D9D9;
+    height: 350px;
 }
 
-.post-content span {
+.post-content > div {
+    background-color: #D9D9D9;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 10; /* number of lines to show */
     -webkit-box-orient: vertical;
+    line-height: 1.5em;
+    max-height: 16em;
 }
 
 .avatar .post-point img {

@@ -1,10 +1,12 @@
 from flask import request, redirect, url_for, render_template, flash, session
 from blog import app, db
-from blog.models.models import Post, Tag
+from blog.models.models import Post, Tag, User
 
 @app.route('/post/index', methods=['GET'])
 def post_index():
-    return render_template('post/list-post.html')
+    posts = db.session.query(Post, User).join(User).filter(User.id==Post.user_id).all()
+    print(posts[0]['User'].username)
+    return render_template('post/list-post.html', posts=posts)
 
 @app.route('/post/create', methods=['GET', 'POST'])
 def create_post():
