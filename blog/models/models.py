@@ -23,7 +23,7 @@ class User(db.Model):
     def __repr__(self):
         return '<User id:{} username:{} password:{} point:{} gender:{} school_year:{}>'.format(self.id, self.username, self.password, self.point, self.gender, self.school_year)
 
-class Posts(db.Model):
+class Post(db.Model):
     __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -42,7 +42,7 @@ class Posts(db.Model):
     def __repr__(self):
         return '<Posts id:{} content:{} tag_id:{} type:{}>'.format(self.id, self.content, self.tag_id, self.type)
 
-class Tags(db.Model):
+class Tag(db.Model):
     __tablename__ = 'tags'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -74,7 +74,7 @@ class UserTag(db.Model):
     def __repr__(self):
         return '<UserTag id:{} tag_id:{} user_id:{}>'.format(self.id, self.tag_id, self.user_id)
 
-class Comments(db.Model):
+class Comment(db.Model):
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -93,7 +93,7 @@ class Comments(db.Model):
     def __repr__(self):
         return '<Comments id:{} content:{} user_id:{} post_id:{}>'.format(self.id, self.content, self.user_id, self.post_id)
 
-class Likes(db.Model):
+class Like(db.Model):
     __tablename__ = 'likes'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -110,7 +110,7 @@ class Likes(db.Model):
     def __repr__(self):
         return '<Likes id:{} user_id:{} post_id:{}>'.format(self.id, self.user_id, self.post_id)
 
-class Follows(db.Model):
+class Follow(db.Model):
     __tablename__ = 'follows'
 
     id = db.Column(db.Integer, primary_key=True)

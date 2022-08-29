@@ -1,0 +1,48 @@
+.list-post {
+    background-image: url('/static/img/background3.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.title img {
+    width: 280px;
+    cursor: pointer;
+}
+
+.list-post .input-radio label {
+    color: #29963B;
+    font-size: 25px;
+}
+
+.input-radio input {
+    height: 20px;
+    width: 20px;
+}
+
+.post-title .content {
+    background-color: #D9D9D9;
+    height: 80px;
+    overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 2; /* number of lines to show */
+   -webkit-box-orient: vertical;
+}
+
+.post-content {
+    height: 350px;
+    background-color: #D9D9D9;
+}
+
+.post-content span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 10; /* number of lines to show */
+    -webkit-box-orient: vertical;
+}
+
+.avatar .post-point img {
+    height: 80px;
+    width: 80px;
+}
