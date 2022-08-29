@@ -16,6 +16,10 @@
 
 }
 
+.log-in .body  {
+    background: none;
+}
+
 .title {
     padding-top: 25px;
 }
@@ -43,4 +47,14 @@ input[type="radio"] {
 label, legend {
     font-size: 20px;
     font-weight: 400;
+}
+
+
+.login-body {
+	border-radius: 20px;
+    background-color: #FFFFFF;
+}
+
+.username-login {
+    font-weight: 500;
 }
