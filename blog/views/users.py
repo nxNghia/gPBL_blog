@@ -173,3 +173,27 @@ def un_follow():
     db.session.commit()
 
     return jsonify(1)
+
+@app.route('/search', methods=['GET'])
+def searching():
+    search_value = request.args.get('search-box')
+    search_type = request.args.get('search-type')
+    
+    if search_type == '0':
+        users = db.session.query(User).filter(User.username.contains(search_value)).all()
+        info = []
+        for user in users:
+            related_tags = db.session.query(Tag).join(UserTag).filter(UserTag.user_id==user.id).all()
+            _tags_ = []
+            for tag in related_tags:
+                _tags_.append({
+                    "id": tag.id,
+                    "name": tag.name
+                })
+            info.append({
+                "user": user,
+                "tags": _tags_
+            })
+        return render_template('user/list-user.html', users=users, info=info)
+
+    return redirect(url_for('post_index'))
