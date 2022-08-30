@@ -1,7 +1,6 @@
 from flask import request, redirect, url_for, render_template, flash, session, jsonify
 from blog import app, db
 from blog.models.models import Post, Tag, User, Comment, Like
-<<<<<<< HEAD
 from datetime import datetime
 
 @app.route('/post/index', methods=['GET'])
@@ -14,14 +13,6 @@ def post_index():
         point.append(len(_point_))
 
     return render_template('post/list-post.html', posts=posts, point=point, length=len(point))
-=======
-import json
-
-@app.route('/post/index', methods=['GET'])
-def post_index():
-    posts = db.session.query(Post, User).join(User).filter(User.id==Post.user_id).all()
-    return render_template('post/list-post.html', posts=posts)
->>>>>>> 89d9c26 (Add comment)
 
 @app.route('/post/create', methods=['GET', 'POST'])
 def create_post():
@@ -51,12 +42,8 @@ def create_post():
             db.session.add(post)
             db.session.commit()
 
-<<<<<<< HEAD
     return redirect(url_for('post_index'))
 
-=======
-    return redirect(url_for('get_user'))
->>>>>>> 89d9c26 (Add comment)
 
 @app.route('/post/<int:id>', methods=['GET'])
 def detail_post(id):
