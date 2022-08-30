@@ -30,7 +30,8 @@ def create_post():
                 tag_id = request.form['tag_id'],
                 type = True,
                 user_id = session['logged_in']['id'],
-                deadline = datetime.strptime(request.form['deadline'], '%Y-%m-%d')
+                deadline = datetime.strptime(request.form['deadline'], '%Y-%m-%d'),
+                finished = False
             )
             db.session.add(post)
             db.session.commit()

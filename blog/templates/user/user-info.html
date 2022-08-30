@@ -61,10 +61,10 @@
         </div>
     </div>
     <div class="detail-info update-info" style="display: none;">
-        <form>
+        <form action="{{ url_for('get_user') }}" method=post>
             <div class="category">
                 <label>ユーザ名</label>
-                <input value="{{ user_info.username }}" />
+                <input value="{{ user_info.username }}" name="username"/>
             </div>
             <div class="category-group">
                 <div class="category">
@@ -92,21 +92,37 @@
             <div class="category">
                 <label>力を入れたい科目</label>
                 <div>
-                    {% for tag in session['tags'] %}
-                        <select class="form-select" aria-label="Default select example">
-                            {% for sub_tag in tags %}
-                                {% if tag.id == session['tags'][0].id %}
-                                    <option value="{{ tag.id }}" selected>{{ tag.name }}</option>
-                                {% else %}
-                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    {% endfor %}
+                    <select name="tag1" class="form-select" aria-label="Default select example">
+                        {% for sub_tag in tags %}
+                            {% if sub_tag.id == session['tags'][0].id %}
+                                <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
+                            {% else %}
+                                <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="tag2" class="form-select" aria-label="Default select example">
+                        {% for sub_tag in tags %}
+                            {% if sub_tag.id == session['tags'][1].id %}
+                                <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
+                            {% else %}
+                                <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="tag3" class="form-select" aria-label="Default select example">
+                        {% for sub_tag in tags %}
+                            {% if sub_tag.id == session['tags'][2].id %}
+                                <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
+                            {% else %}
+                                <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
             <div class="d-flex btn-edit justify-content-center">
-                <a type="submit" class="edit-user-submit mr-2 px-3 py-2" href="javascript::void(0)">設定</a>
+                <input type="submit" class="edit-user-submit mr-2 px-3 py-2" value="設定" />
                 <a class="px-3 py-2 edit-cancel" href="javascript::void(0)">キャンセル</a>
             </div>
         </form>
@@ -118,7 +134,7 @@
         <div class="status-container">
             <label for="status"></label>
             <div class="form-check form-check-inline ml-5">
-                <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="0">
+                <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="0" checked>
                 <label class="form-check-label" for="inlineRadio1">未完</label>
             </div>
             <div class="form-check form-check-inline ml-5">
@@ -127,12 +143,12 @@
             </div>
         </div>
 
-        <div class="page-section">
+        <!-- <div class="page-section">
             <span class="page-index active-index">1</span>
             <span class="page-index">2</span>
             <span class="page-index non-index">...</span>
             <span class="page-index">5</span>
-        </div>
+        </div> -->
 
         <div class="task-container">
             <div class="table-header">
@@ -141,7 +157,7 @@
                     <div class="deadline">締切</div>
                 </div>
             </div>
-            {% for task in tasks %}
+            {% for task in unfinished_tasks %}
             <div class="row">
                 <div class="task-title">
                     {{ task.title }}
@@ -159,12 +175,12 @@
             <h1>投稿一覧</h1>
         </div>
 
-        <div class="page-section">
+        <!-- <div class="page-section">
             <span class="page-index active-index">1</span>
             <span class="page-index">2</span>
             <span class="page-index non-index">...</span>
             <span class="page-index">5</span>
-        </div>
+        </div> -->
 
         <div class="post-container">
             {% for index in range(0, length) %}
