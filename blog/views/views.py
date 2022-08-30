@@ -15,7 +15,6 @@ def login():
         if users is None:
             flash('ユーザ名やパスワードが正しくない。')
         else:
-            print(users)
             _session = {
                 "id": users.id,
                 "username": users.username,

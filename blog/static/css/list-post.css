@@ -50,3 +50,27 @@
     height: 80px;
     width: 80px;
 }
+
+.comment li {
+    background-color: #fff;
+}
+
+.comment-item .content {
+    font-size: 18px;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+}
+
+.comment .avatar img{
+    height: 65px;
+    width: 65px;
+
+}
+
+.comment .avatar span {
+    font-size: 15px;
+}
+
+.btn-comment {
+    color: #fff;
+}
