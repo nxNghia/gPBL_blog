@@ -12,8 +12,6 @@ def post_index():
         _point_ = db.session.query(Like).filter(Like.post_id==post['Post'].id).all()
         point.append(len(_point_))
 
-    print(point)
-
     return render_template('post/list-post.html', posts=posts, point=point, length=len(point))
 
 @app.route('/post/create', methods=['GET', 'POST'])

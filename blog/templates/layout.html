@@ -59,9 +59,12 @@
             <a href="#" class="w3-bar-item">新規投稿</a>
             <a href="#" class="w3-bar-item">注目の投稿</a>
             <ul>
-                <li class="mb-3"><a href="#" class="sub-menu text-dark">科目１</a></li>
+            {% for tag in session['tags'] %}
+                <li><a class="mb-3" href="{{ tag.id }}">{{ tag.name }}</a></li>
+                <!-- <li class="mb-3"><a href="#" class="sub-menu text-dark">科目１</a></li>
                 <li class="mb-3"><a href="#" class="sub-menu text-dark">科目2</a></li>
-                <li><a href="#" class="sub-menu text-dark">科目3</a></li>
+                <li><a href="#" class="sub-menu text-dark">科目3</a></li> -->
+            {% endfor %}
             </ul>
         <a href="#" class="w3-bar-item">頑張っている人たち</a>
 

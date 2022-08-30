@@ -49,6 +49,18 @@ def signup():
         }
         session['logged_in'] = _session
 
+        user_tags = db.session.query(Tag).filter(UserTag.tag_id==Tag.id, UserTag.user_id==user.id).all()
+
+        tags = []
+
+        for tag in user_tags:
+            tags.append({
+                "id": tag.id,
+                "name": tag.name
+            })
+
+        session['tags'] = tags
+
         return redirect(url_for('get_user'))
     else:
         tags = Tag.query.all()
@@ -61,5 +73,4 @@ def user_index():
 @app.route('/user', methods=['GET', 'POST'])
 def get_user():
     if request.method == 'GET':
-        print(session['logged_in'])
         return render_template('user/user-info.html', user_info=session['logged_in'])
