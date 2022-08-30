@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, render_template, flash, session
 from blog import app, db
-from blog.models.models import Post, Tag, User
+from blog.models.models import Post, Tag, User, Comment
 
 @app.route('/post/index', methods=['GET'])
 def post_index():
@@ -37,3 +37,9 @@ def create_post():
             db.session.commit()
 
     return redirect(url_for('user_index'))
+
+
+@app.route('/post/<int:id>', methods=['GET'])
+def detail_post(id):
+    post = Post.query.join(Comment, User, Tag, Like).filter_by(id = id).first()
+    return render_template('post/detail.html', post=post)

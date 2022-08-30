@@ -6,7 +6,7 @@
 {% block body %}
 <div class="create-form">
     <form action="{{ url_for('create_post') }}" method=post>
-        <select name="type">
+        <select name="type" class="create-select-type">
             <option value="1">投稿</option>
             <option value="0">タスク</option>
         </select>
@@ -26,7 +26,7 @@
                 {% endfor %}
             </select>
         </div>
-        <div class="row">
+        <div class="row create-post-date" style="display: none;">
             <span class="posting-field">日付</span>
             <input type="date" class="date-selecting-box" name="deadline" />
         </div>

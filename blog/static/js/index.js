@@ -17,3 +17,9 @@ $( ".edit-cancel" ).click(function() {
     $(".user-display-info").show()
     $(".update-info").hide()
 });
+
+$(".create-select-type").on("change", function(){
+    if ($(this).val() == 0)
+        $(".create-post-date").show();
+    else $(".create-post-date").hide();
+});

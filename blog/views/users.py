@@ -51,7 +51,7 @@ def signup():
 
         return redirect(url_for('get_user'))
     else:
-        tags = Tags.query.all()
+        tags = Tag.query.all()
         return render_template('signin.html', tags=tags)
 
 @app.route('/user/index', methods=['GET'])
