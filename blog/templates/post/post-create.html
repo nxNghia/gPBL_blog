@@ -11,15 +11,15 @@
             <option value="0">タスク</option>
         </select>
         <div class="row">
-            <span class="posting-field">タイトル</span>
+            <span class="posting-field font-weight-bold">タイトル</span>
             <input name="title" class="title-input" />
         </div>
         <div class="posting-content row">
-            <span class="posting-field">本文</span>
+            <span class="posting-field font-weight-bold">本文</span>
             <textarea name="content" rows="15"></textarea>
         </div>
         <div class="tag-selection-container row">
-            <span class="posting-field">タグ</span>
+            <span class="posting-field font-weight-bold">タグ</span>
             <select name="tag_id" class="tag-selection">
                 {% for tag in tags %}
                 <option value="{{ tag.id }}">{{ tag.name }}</option>
@@ -27,7 +27,7 @@
             </select>
         </div>
         <div class="row create-post-date" style="display: none;">
-            <span class="posting-field">日付</span>
+            <span class="posting-field font-weight-bold">日付</span>
             <input type="date" class="date-selecting-box" name="deadline" />
         </div>
         <div class="button-group">

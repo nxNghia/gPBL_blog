@@ -1,6 +1,7 @@
-from flask import request, redirect, url_for, render_template, flash, session
+from flask import request, redirect, url_for, render_template, flash, session, jsonify
 from blog import app, db
 from blog.models.models import Post, Tag, User, Comment, Like
+<<<<<<< HEAD
 from datetime import datetime
 
 @app.route('/post/index', methods=['GET'])
@@ -13,6 +14,14 @@ def post_index():
         point.append(len(_point_))
 
     return render_template('post/list-post.html', posts=posts, point=point, length=len(point))
+=======
+import json
+
+@app.route('/post/index', methods=['GET'])
+def post_index():
+    posts = db.session.query(Post, User).join(User).filter(User.id==Post.user_id).all()
+    return render_template('post/list-post.html', posts=posts)
+>>>>>>> 89d9c26 (Add comment)
 
 @app.route('/post/create', methods=['GET', 'POST'])
 def create_post():
@@ -42,10 +51,35 @@ def create_post():
             db.session.add(post)
             db.session.commit()
 
+<<<<<<< HEAD
     return redirect(url_for('post_index'))
 
+=======
+    return redirect(url_for('get_user'))
+>>>>>>> 89d9c26 (Add comment)
 
 @app.route('/post/<int:id>', methods=['GET'])
 def detail_post(id):
-    post = Post.query.join(Comment, User, Tag, Like).filter_by(id = id).first()
-    return render_template('post/detail.html', post=post)
+    post = db.session.query(Post, User, Tag).join(User, Tag).filter(Post.user_id == User.id, Tag.id == Post.tag_id).filter(Post.id==id).first()
+    comments = db.session.query(Comment, User).join(User).filter(Comment.user_id == User.id).filter(Comment.post_id==id).all()
+    countLike = db.session.query(Like).filter(Like.post_id == id).count()
+
+    return render_template('post/detail.html', post=post, comments = comments, countLike = countLike)
+
+@app.route('/comment/add', methods=['POST'])
+def add_comment():
+    comment = Comment(
+            user_id = session['logged_in']["id"],
+            post_id = request.args.get('post_id'),
+            content = request.form['content']
+        )
+    data = {
+        'user_id' : session['logged_in']["id"],
+        'username' : session['logged_in']["username"],
+        'content' : request.form['content']
+    }
+    
+    db.session.add(comment)
+    db.session.commit()
+
+    return jsonify(data)
