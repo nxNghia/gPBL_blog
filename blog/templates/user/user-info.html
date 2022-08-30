@@ -50,9 +50,9 @@
         <div class="category">
             <label>力を入れたい科目</label>
             <div>
-                <span class="text-dark mr-3 font-weight-bold">分野1</span>
-                <span class="mr-3 text-dark font-weight-bold">分野2</span>
-                <span class="text-dark font-weight-bold">分野3</span>
+                {% for tag in session['tags'] %}
+                    <span class="text-dark mr-3 font-weight-bold">{{ tag.name }}</span>
+                {% endfor %}
             </div>
         </div>
         <div class="category">
@@ -92,24 +92,17 @@
             <div class="category">
                 <label>力を入れたい科目</label>
                 <div>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>分野</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                      </select>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>分野</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>分野</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
+                    {% for tag in session['tags'] %}
+                        <select class="form-select" aria-label="Default select example">
+                            {% for sub_tag in tags %}
+                                {% if tag.id == session['tags'][0].id %}
+                                    <option value="{{ tag.id }}" selected>{{ tag.name }}</option>
+                                {% else %}
+                                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    {% endfor %}
                 </div>
             </div>
             <div class="d-flex btn-edit justify-content-center">
@@ -148,62 +141,16 @@
                     <div class="deadline">締切</div>
                 </div>
             </div>
+            {% for task in tasks %}
             <div class="row">
                 <div class="task-title">
-                    ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC
+                    {{ task.title }}
                 </div>
                 <div class="deadline">
-                    2022/01/01
+                    {{ task.deadline }}
                 </div>
             </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
@@ -220,121 +167,22 @@
         </div>
 
         <div class="post-container">
+            {% for index in range(0, length) %}
             <div class="post">
                 <div class="post-info">
                     <div class="post-info-detail">
-                        <div class="post-title">
-                            <label>タイトル</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABA ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC </div>
-                        </div>
-                        <div class="post-content">
-                            <label>本文</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC</div>
-                        </div>
+                        {{ posts[index]['Post'].title }}
                     </div>
                     <div class="cheer-info">
                         <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">15</span>
+                        <span class="cheer-point">{{ posts_point[index] }}</span>
                     </div>
                 </div>
                 <div class="tags-container">
-                    <div class="tag">IA</div>
-                    <div class="tag">IIB</div>
-                    <div class="tag">Listening</div>
+                    <div class="tag">{{ posts[index]['Tag'].name }}</div>
                 </div>
             </div>
-            <div class="post">
-                <div class="post-info">
-                    <div class="post-info-detail">
-                        <div class="post-title">
-                            <label>タイトル</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABA ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC </div>
-                        </div>
-                        <div class="post-content">
-                            <label>本文</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC</div>
-                        </div>
-                    </div>
-                    <div class="cheer-info">
-                        <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">15</span>
-                    </div>
-                </div>
-                <div class="tags-container">
-                    <div class="tag">IA</div>
-                    <div class="tag">IIB</div>
-                    <div class="tag">Listening</div>
-                </div>
-            </div>
-            <div class="post">
-                <div class="post-info">
-                    <div class="post-info-detail">
-                        <div class="post-title">
-                            <label>タイトル</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABA ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC </div>
-                        </div>
-                        <div class="post-content">
-                            <label>本文</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC</div>
-                        </div>
-                    </div>
-                    <div class="cheer-info">
-                        <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">15</span>
-                    </div>
-                </div>
-                <div class="tags-container">
-                    <div class="tag">IA</div>
-                    <div class="tag">IIB</div>
-                    <div class="tag">Listening</div>
-                </div>
-            </div>
-            <div class="post">
-                <div class="post-info">
-                    <div class="post-info-detail">
-                        <div class="post-title">
-                            <label>タイトル</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABA ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC </div>
-                        </div>
-                        <div class="post-content">
-                            <label>本文</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC</div>
-                        </div>
-                    </div>
-                    <div class="cheer-info">
-                        <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">15</span>
-                    </div>
-                </div>
-                <div class="tags-container">
-                    <div class="tag">IA</div>
-                    <div class="tag">IIB</div>
-                    <div class="tag">Listening</div>
-                </div>
-            </div>
-            <div class="post">
-                <div class="post-info">
-                    <div class="post-info-detail">
-                        <div class="post-title">
-                            <label>タイトル</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABA ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC </div>
-                        </div>
-                        <div class="post-content">
-                            <label>本文</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC</div>
-                        </div>
-                    </div>
-                    <div class="cheer-info">
-                        <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">15</span>
-                    </div>
-                </div>
-                <div class="tags-container">
-                    <div class="tag">IA</div>
-                    <div class="tag">IIB</div>
-                    <div class="tag">Listening</div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, render_template, flash, session
 from blog import app, db
-from blog.models.models import User, Tag, UserTag
+from blog.models.models import Like, Post, User, Tag, UserTag
 
 @app.route('/user/create', methods=['POST', 'GET'])
 def signup():
@@ -73,4 +73,17 @@ def user_index():
 @app.route('/user', methods=['GET', 'POST'])
 def get_user():
     if request.method == 'GET':
-        return render_template('user/user-info.html', user_info=session['logged_in'])
+        print(session['logged_in']['id'])
+        tags = db.session.query(Tag).all()
+        tasks = db.session.query(Post).filter(Post.user_id==session['logged_in']['id'], Post.type==1).all()
+        posts = db.session.query(Post, Tag).join(Tag).filter(Post.user_id==session['logged_in']['id'], Post.type==0, Tag.id==Post.tag_id).all()
+
+        posts_point = []
+
+        for post in posts:
+            post_point = db.session.query(Like).filter(Like.post_id==post['Post'].id).all()
+            posts_point.append(len(post_point))
+
+        print(posts_point)
+
+        return render_template('user/user-info.html', user_info=session['logged_in'], posts=posts, tasks=tasks, tags=tags, length=len(posts), posts_point=posts_point)
