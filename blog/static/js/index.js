@@ -66,3 +66,30 @@ $(".btn-comment").click(function(){
         },
     });
 });
+
+
+$(".unlike").click(function(){
+    var csrf_token = "{{ csrf_token() }}";
+    url = $(this).attr("path")
+    var className = ".countLike-" + $(this).attr("action") 
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": csrf_token,
+        },
+    });
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+        },
+        success: function (data) {
+            $(className).text(parseInt($(className).text()) + 1)
+            $(".icon-like").show()
+            $(".unlike").hide()
+        },
+        error: function () {
+            alert("Something wrong please try again!");
+        },
+    });
+});

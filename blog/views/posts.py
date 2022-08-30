@@ -8,11 +8,14 @@ def post_index():
     posts = db.session.query(Post, User, Tag).join(User, Tag).filter(User.id==Post.user_id, Post.type==0, Post.tag_id==Tag.id).all()
     
     point = []
+    userLike = []
     for post in posts:
         _point_ = db.session.query(Like).filter(Like.post_id==post['Post'].id).all()
         point.append(len(_point_))
+        like = db.session.query(Like).filter(Like.post_id == post['Post'].id, Like.user_id == session["logged_in"]['id']).count()
+        userLike.append(like)
 
-    return render_template('post/list-post.html', posts=posts, point=point, length=len(point))
+    return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike)
 
 @app.route('/post/create', methods=['GET', 'POST'])
 def create_post():
@@ -50,8 +53,9 @@ def detail_post(id):
     post = db.session.query(Post, User, Tag).join(User, Tag).filter(Post.user_id == User.id, Tag.id == Post.tag_id).filter(Post.id==id).first()
     comments = db.session.query(Comment, User).join(User).filter(Comment.user_id == User.id).filter(Comment.post_id==id).all()
     countLike = db.session.query(Like).filter(Like.post_id == id).count()
+    userLike = db.session.query(Like).filter(Like.post_id == id, Like.user_id == session['logged_in']["id"]).count()
 
-    return render_template('post/detail.html', post=post, comments = comments, countLike = countLike)
+    return render_template('post/detail.html', post=post, comments = comments, countLike = countLike, userLike = userLike)
 
 @app.route('/comment/add', methods=['POST'])
 def add_comment():
@@ -70,3 +74,15 @@ def add_comment():
     db.session.commit()
 
     return jsonify(data)
+
+@app.route('/like/add', methods=['POST'])
+def add_like():
+    like = Like(
+            user_id = session['logged_in']["id"],
+            post_id = request.args.get('post_id'),
+        )
+    
+    db.session.add(like)
+    db.session.commit()
+
+    return jsonify(1)
