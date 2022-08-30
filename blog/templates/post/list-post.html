@@ -29,8 +29,13 @@
                         <img src="{{ url_for('static', filename='img/man-avatar.png') }}">
                         <span class="mt-3 px-5 py-1">{{ posts[i]['User'].username }}</span>
                         <div class="post-point d-flex flex-column mt-3">
-                            <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon mb-2" />
-                            <span>{{ point[i] }}pt</span>
+                            {% if userLike[i] > 0 %}
+                                <img src="{{ url_for('static', filename='img/like.png') }}" class="applause-icon mb-2" />
+                            {% else %}
+                                <img action="{{ posts[i]['Post'].id  }}" path="{{ url_for('add_like', post_id = posts[i]['Post'].id ) }}" src="{{ url_for('static', filename='img/unlike.png') }}" class="applause-icon mb-2 unlike" />
+                                <img src="{{ url_for('static', filename='img/like.png') }}" style="display: none;" class="applause-icon mb-2 icon-like" />
+                            {% endif %}
+                            <p><span value="{{ point[i] }}" class="countLike-{{ posts[i]['Post'].id }}">{{ point[i] }}</span> pt</p>
                         </div>
                     </div>
                     <div class="post-title col-9 mb-3 d-flex flex-column">
