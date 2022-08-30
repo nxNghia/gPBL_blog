@@ -195,5 +195,16 @@ def searching():
                 "tags": _tags_
             })
         return render_template('user/list-user.html', users=users, info=info)
+    else:
+        if search_type == '2':
+            posts = db.session.query(Post, Tag, User).join(Tag, User).filter(Post.title.contains(search_value) | Post.content.contains(search_value)).all()
 
+            point = []
+            userLike = []
+            for post in posts:
+                _point_ = db.session.query(Like).filter(Like.post_id==post['Post'].id).all()
+                point.append(len(_point_))
+                like = db.session.query(Like).filter(Like.post_id == post['Post'].id, Like.user_id == session["logged_in"]['id']).count()
+                userLike.append(like)
+            return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike)
     return redirect(url_for('post_index'))
