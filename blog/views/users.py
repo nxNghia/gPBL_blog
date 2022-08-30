@@ -73,9 +73,7 @@ def user_index():
 @app.route('/user', methods=['GET', 'POST'])
 def get_user():
     if request.method == 'GET':
-        print(session['logged_in']['id'])
         tags = db.session.query(Tag).all()
-        tasks = db.session.query(Post).filter(Post.user_id==session['logged_in']['id'], Post.type==1).all()
         posts = db.session.query(Post, Tag).join(Tag).filter(Post.user_id==session['logged_in']['id'], Post.type==0, Tag.id==Post.tag_id).all()
 
         posts_point = []
@@ -84,6 +82,57 @@ def get_user():
             post_point = db.session.query(Like).filter(Like.post_id==post['Post'].id).all()
             posts_point.append(len(post_point))
 
-        print(posts_point)
+        finished_tasks = db.session.query(Post).filter(Post.user_id==session['logged_in']['id'], Post.type==1, Post.finished==True).all()
+        unfinished_tasks = db.session.query(Post).filter(Post.user_id==session['logged_in']['id'], Post.type==1, Post.finished==False).all()
 
-        return render_template('user/user-info.html', user_info=session['logged_in'], posts=posts, tasks=tasks, tags=tags, length=len(posts), posts_point=posts_point)
+        return render_template('user/user-info.html',
+                                    user_info=session['logged_in'],
+                                    posts=posts,
+                                    tags=tags,
+                                    length=len(posts),
+                                    posts_point=posts_point,
+                                    finished_tasks=finished_tasks,
+                                    unfinished_tasks=unfinished_tasks
+                                )
+    else:
+        if request.method == 'POST':
+            user = User.query.get(session['logged_in']['id'])
+            user.username = request.form['username']
+            user.gender = request.form['sex']
+            user.school_year = request.form['school_year']
+
+            db.session.commit()
+
+            session.pop('logged_in', None)
+            session['logged_in'] = {
+                "id": user.id,
+                "username": user.username,
+                "password": user.password,
+                "point": user.point,
+                "gender": user.gender,
+                "school_year": user.school_year
+            }
+
+            tags = UserTag.query.filter_by(user_id=user.id).all()
+            
+            tags[0].tag_id = request.form['tag1']
+            tags[1].tag_id = request.form['tag2']
+            tags[2].tag_id = request.form['tag3']
+
+            db.session.commit()
+
+            session.pop('tags', None)
+
+            new_tags_session = []
+
+            for tag in tags:
+                _tag_ = db.session.query(Tag).filter(Tag.id==tag.tag_id).first()
+                new_tags_session.append({
+                    "id": _tag_.id,
+                    "name": _tag_.name
+                })
+
+            session['tags'] = new_tags_session
+
+            return redirect(url_for('get_user'))
+            

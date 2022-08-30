@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, render_template, flash, session
 from blog import app, db
-from blog.models.models import Tag, User, UserTag
+from blog.models.models import User, Tag, UserTag
 
 @app.route('/')
 def show_entries():
@@ -15,6 +15,7 @@ def login():
         if users is None:
             flash('ユーザ名やパスワードが正しくない。')
         else:
+            print(users)
             _session = {
                 "id": users.id,
                 "username": users.username,
