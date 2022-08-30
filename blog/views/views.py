@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, render_template, flash, session
-from blog import app
-from blog.models.models import User
+from blog import app, db
+from blog.models.models import Tag, User, UserTag
 
 @app.route('/')
 def show_entries():
@@ -24,6 +24,20 @@ def login():
                 "school_year": users.school_year
             }
             session['logged_in'] = _session
+
+            user_tags = db.session.query(Tag).filter(UserTag.tag_id==Tag.id, UserTag.user_id==users.id).all()
+
+            tags = []
+
+            for tag in user_tags:
+                print(tag.name)
+                tags.append({
+                    "id": tag.id,
+                    "name": tag.name
+                })
+
+            session['tags'] = tags
+
             return redirect(url_for('get_user'))
     return render_template('login.html')
 
