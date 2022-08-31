@@ -228,6 +228,44 @@ def searching():
                 like = db.session.query(Like).filter(Like.post_id == post['Post'].id, Like.user_id == session["logged_in"]['id']).count()
                 userLike.append(like)
 
-            print(posts)
-
             return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike)
+
+@app.route('/list-following', methods=['GET'])
+def list_following():
+    title = "フォロイングリスト"
+    users = db.session.query(User, Follow).filter(Follow.follower_id == session['logged_in']['id'], Follow.user_id == User.id).all()
+    info = []
+    for user in users:
+        related_tags = db.session.query(Tag).join(UserTag).filter(UserTag.user_id==user['User'].id).all()
+        _tags_ = []
+        for tag in related_tags:
+            _tags_.append({
+                "id": tag.id,
+                "name": tag.name
+            })
+        info.append({
+            "user": user['User'],
+            "tags": _tags_
+        })
+
+    return render_template('user/list-user.html', users=users, info=info, title = title)
+
+@app.route('/list-follower', methods=['GET'])
+def list_follower():
+    title = "フォロワーリスト"
+    users = db.session.query(User, Follow).filter(Follow.user_id == session['logged_in']['id'], Follow.follower_id == User.id).all()
+    info = []
+    for user in users:
+        related_tags = db.session.query(Tag).join(UserTag).filter(UserTag.user_id==user['User'].id).all()
+        _tags_ = []
+        for tag in related_tags:
+            _tags_.append({
+                "id": tag.id,
+                "name": tag.name
+            })
+        info.append({
+            "user": user['User'],
+            "tags": _tags_
+        })
+
+    return render_template('user/list-user.html', users=users, info=info, title = title)

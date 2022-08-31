@@ -26,10 +26,24 @@
             </div>
             <div class="header-info">
                 <span>{{ user_info.username }}</span>
-                <div class="button-group">
-                    <a href="#">フォロー</a>
-                    <a href="#">フォロワー</a>
-                </div>
+                {% if user_info.id != session['logged_in']['id'] %}
+                    <div class="button-group">
+                        {% if userFollow > 0%}
+                            <a class="detail-unfollow" path="{{ url_for('un_follow', user_id = user_info.id )}}" href="javascript:void(0)">unfollow</a>
+                            <a class="detail-follow" path="{{ url_for('add_follow', user_id = user_info.id )}}" style="display: none;" href="javascript:void(0)">フォロー</a>
+                        {% else %}
+                            <a class="detail-follow" path="{{ url_for('add_follow', user_id = user_info.id )}}" href="javascript:void(0)">フォロー</a>
+                            <a class="detail-unfollow" path="{{ url_for('un_follow', user_id = user_info.id )}}" style="display: none;" href="javascript:void(0)">unfollow</a>
+
+                        {%endif%}
+                    </div>
+                {% endif %}
+                {% if user_info.id == session['logged_in']['id'] %}
+                    <div class="button-group">
+                        <a href="{{url_for('list_following')}}">フォロー</a>
+                        <a href="{{ url_for('list_follower') }}">フォロワー</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -48,24 +62,9 @@
         <div class="category">
             <label>力を入れたい科目</label>
             <div>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
+                {% for tag in tagUser %}
+                    <span class="text-dark mr-3 font-weight-bold">{{ tag['Tag'].name }}</span>
+                {% endfor %}
             </div>
         </div>
         <div class="category">
@@ -74,59 +73,74 @@
         </div>
     </div>
 
-    <!-- <div class="detail-info update-info">
-        <div class="category">
-            <label>ユーザ名</label>
-            <input value="ABC ABC ABC" />
-        </div>
-        <div class="category-group">
+    <div class="detail-info update-info" style="display: none;">
+        <form action="{{ url_for('get_user') }}" method=post>
             <div class="category">
-                <label>学年</label>
-                <input value="3" />
+                <label>ユーザ名</label>
+                <input value="{{ user_info.username }}" name="username"/>
             </div>
-            <div class="category">
-                <label class="">性別</label>
-                <div class="gender-select">
-                    <div class="form-check form-check-inline">
-                        <input name="sex" class="form-check-input" type="radio" id="gridRadios1" value="0" checked>
-                        <label class="form-check-label" for="gridRadios1">男</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="sex" id="gridRadios2" value="1">
-                        <label class="form-check-label" for="gridRadios2">女</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="sex" id="gridRadios3" value="">
-                        <label class="form-check-label" for="gridRadios3">非公開</label>
+            <div class="category-group">
+                <div class="category">
+                    <label>学年</label>
+                    <input name="school_year" value="{{ user_info.school_year }}" />
+                </div>
+                <div class="category">
+                    <label class="">性別</label>
+                    <div class="gender-select">
+                        <div class="form-check form-check-inline">
+                            <input name="sex" class="form-check-input" type="radio" id="gridRadios1" value="1" {{ user_info.gender == 1 and 'checked' or '' }}  >
+                            <label class="form-check-label text-dark font-weight-bold" for="gridRadios1">男</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sex" id="gridRadios2" value="0" {{ user_info.gender == 0 and 'checked' or '' }}>
+                            <label class="form-check-label text-dark font-weight-bold" for="gridRadios2">女</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sex" id="gridRadios3" value="-1" {{ user_info.gender == -1 and 'checked' or '' }}>
+                            <label class="form-check-label text-dark font-weight-bold" for="gridRadios3">非公開</label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="category">
-            <label>力を入れたい科目</label>
-            <div>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>分野</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
+            <div class="category">
+                <label>力を入れたい科目</label>
+                <div>
+                    <select name="tag1" class="form-select" aria-label="Default select example">
+                        {% for sub_tag in tags %}
+                            {% if sub_tag.id == tagUser[0]['Tag'].id %}
+                                <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
+                            {% else %}
+                                <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="tag2" class="form-select" aria-label="Default select example">
+                        {% for sub_tag in tags %}
+                            {% if sub_tag.id == tagUser[1]['Tag'].id %}
+                                <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
+                            {% else %}
+                                <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="tag3" class="form-select" aria-label="Default select example">
+                        {% for sub_tag in tags %}
+                            {% if sub_tag.id == tagUser[2]['Tag'].id %}
+                                <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
+                            {% else %}
+                                <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    
+                </div>
             </div>
-        </div>
-    </div> -->
-
+            <div class="d-flex btn-edit justify-content-center">
+                <input type="submit" class="edit-user-submit mr-2 px-3 py-2" value="設定" />
+                <a class="px-3 py-2 edit-cancel" href="javascript::void(0)">キャンセル</a>
+            </div>
+        </form>
+    </div>
     <div class="task">
         <div class="title">
             <h1>タスク</h1>
@@ -142,14 +156,6 @@
                 <label class="form-check-label" for="inlineRadio2">終了</label>
             </div>
         </div>
-
-        <div class="page-section">
-            <span class="page-index active-index">1</span>
-            <span class="page-index">2</span>
-            <span class="page-index non-index">...</span>
-            <span class="page-index">5</span>
-        </div>
-
         <div class="task-container">
             <div class="table-header">
                 <div class="row">
@@ -157,62 +163,16 @@
                     <div class="deadline">締切</div>
                 </div>
             </div>
+            {% for task in unfinished_tasks %}
             <div class="row">
                 <div class="task-title">
-                    ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC ABC
+                    {{ task.title }}
                 </div>
                 <div class="deadline">
-                    2022/01/01
+                    {{ task.deadline }}
                 </div>
             </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
-            <div class="row">
-                <div class="task-title">
-                    <span>ABC ABC ABC ABC ABC ABC</span>
-                </div>
-                <div class="deadline">
-                    2022/01/01
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
@@ -221,129 +181,23 @@
             <h1>投稿一覧</h1>
         </div>
 
-        <div class="page-section">
-            <span class="page-index active-index">1</span>
-            <span class="page-index">2</span>
-            <span class="page-index non-index">...</span>
-            <span class="page-index">5</span>
-        </div>
-
         <div class="post-container">
+            {% for index in range(0, length) %}
             <div class="post">
                 <div class="post-info">
                     <div class="post-info-detail">
-                        <div class="post-title">
-                            <label>タイトル</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABA ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC </div>
-                        </div>
-                        <div class="post-content">
-                            <label>本文</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC</div>
-                        </div>
+                        {{ posts[index]['Post'].title }}
                     </div>
                     <div class="cheer-info">
                         <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">15</span>
+                        <span class="cheer-point">{{ posts_point[index] }}</span>
                     </div>
                 </div>
                 <div class="tags-container">
-                    <div class="tag">IA</div>
-                    <div class="tag">IIB</div>
-                    <div class="tag">Listening</div>
+                    <div class="tag">{{ posts[index]['Tag'].name }}</div>
                 </div>
             </div>
-            <div class="post">
-                <div class="post-info">
-                    <div class="post-info-detail">
-                        <div class="post-title">
-                            <label>タイトル</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABA ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC </div>
-                        </div>
-                        <div class="post-content">
-                            <label>本文</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC</div>
-                        </div>
-                    </div>
-                    <div class="cheer-info">
-                        <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">15</span>
-                    </div>
-                </div>
-                <div class="tags-container">
-                    <div class="tag">IA</div>
-                    <div class="tag">IIB</div>
-                    <div class="tag">Listening</div>
-                </div>
-            </div>
-            <div class="post">
-                <div class="post-info">
-                    <div class="post-info-detail">
-                        <div class="post-title">
-                            <label>タイトル</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABA ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC </div>
-                        </div>
-                        <div class="post-content">
-                            <label>本文</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC</div>
-                        </div>
-                    </div>
-                    <div class="cheer-info">
-                        <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">15</span>
-                    </div>
-                </div>
-                <div class="tags-container">
-                    <div class="tag">IA</div>
-                    <div class="tag">IIB</div>
-                    <div class="tag">Listening</div>
-                </div>
-            </div>
-            <div class="post">
-                <div class="post-info">
-                    <div class="post-info-detail">
-                        <div class="post-title">
-                            <label>タイトル</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABA ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC </div>
-                        </div>
-                        <div class="post-content">
-                            <label>本文</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC</div>
-                        </div>
-                    </div>
-                    <div class="cheer-info">
-                        <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">15</span>
-                    </div>
-                </div>
-                <div class="tags-container">
-                    <div class="tag">IA</div>
-                    <div class="tag">IIB</div>
-                    <div class="tag">Listening</div>
-                </div>
-            </div>
-            <div class="post">
-                <div class="post-info">
-                    <div class="post-info-detail">
-                        <div class="post-title">
-                            <label>タイトル</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABA ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC </div>
-                        </div>
-                        <div class="post-content">
-                            <label>本文</label>
-                            <div>ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC ABC ABC ABC ACB ABC ABC ACB ACB ABC ABAC ABC</div>
-                        </div>
-                    </div>
-                    <div class="cheer-info">
-                        <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">15</span>
-                    </div>
-                </div>
-                <div class="tags-container">
-                    <div class="tag">IA</div>
-                    <div class="tag">IIB</div>
-                    <div class="tag">Listening</div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

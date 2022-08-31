@@ -117,8 +117,12 @@ def add_like():
             user_id = session['logged_in']["id"],
             post_id = request.args.get('post_id'),
         )
-    
     db.session.add(like)
     db.session.commit()
+    post = Post.query.filter_by(id=request.args.get('post_id')).first()
+    user = User.query.filter_by(id=post.user_id).first()
+    userUpdate = User.query.filter_by(id=user.id).update(dict(point = user.point + 1))
+    db.session.commit()
+
 
     return jsonify(1)
