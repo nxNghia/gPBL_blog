@@ -49,10 +49,12 @@ def create_post():
 
     return redirect(url_for('post_index'))
 
-@app.route('/post/update/<int:id>', methods=['POST'])
+@app.route('/post/update/<int:id>', methods=['POST', 'GET'])
 def edit_post(id):
     if request.method == 'GET':
-        return render_template('post/post-edit.html', post=post)
+        post = db.session.query(Post).filter(Post.id==id).first()
+        tags = Tag.query.all()
+        return render_template('post/post-edit.html', post=post, id=id, tags=tags)
 
     else:
         if request.method == 'POST':
@@ -61,19 +63,14 @@ def edit_post(id):
             post.content = request.form['content']
             post.tag_id = request.form['tag_id']
             db.session.commit()
-                
-   # flash('投稿が更新されました')
-    return redirect(url_for('edit_post'))
+            return redirect(url_for('edit_post', id=id))
 
-@app.route('/post/delete/<int:id>', methods=['POST'])
+@app.route('/post/delete/<int:id>', methods=['GET'])
 def delete_post(id):
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
     post = Post.query.get(id)
     db.session.delete(post)
     db.session.commit()
-    flash('投稿が削除されました')
-    return redirect(url_for('delete_post'))
+    return redirect(url_for('user_index'))
 
 
 @app.route('/post/<int:id>', methods=['GET'])

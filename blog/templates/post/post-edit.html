@@ -5,18 +5,20 @@
 
 {% block body %}
 <div class="create-form">
-    <form action="{{ url_for('update_post') }}" method=post>
+    <!-- {{ post, id }} -->
+    <form action="{{ url_for('edit_post', id=id) }}" method=post>
         <select name="type" class="create-select-type">
             <option value="1">投稿</option>
             <option value="0">タスク</option>
         </select>
+        {{ post }}
         <div class="row">
             <span class="posting-field">タイトル</span>
-            <input name="title" class="title-input" value={{ post.title }}/>
+            <input name="title" class="title-input" value="{{ post.title }}"/>
         </div>
         <div class="posting-content row">
             <span class="posting-field">本文</span>
-            <textarea name="content" rows="15">{{ post.text | safe }}</textarea>
+            <textarea name="content" rows="15">{{ post.content | safe }}</textarea>
         </div>
         <div class="tag-selection-container row">
             <span class="posting-field">タグ</span>
@@ -31,7 +33,7 @@
             <input type="date" class="date-selecting-box" name="deadline" value={{ post.title }}/>
         </div>
         <div class="button-group">
-            <input type="submit" value="保存" class="save-btn" />
+            <input type="submit" value="更新" class="save-btn" />
             <div class="cancel-btn">キャンセル</div>
         </div>
     </form>
