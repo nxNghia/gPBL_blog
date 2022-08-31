@@ -1,8 +1,8 @@
-from flask import request, redirect, url_for, render_template, flash, session
+from flask import request, redirect, url_for, render_template, flash, session, jsonify
 from blog import app, db
-from blog.models.models import Like, Post, User, Tag, UserTag
+from blog.models.models import Like, Post, User, Tag, UserTag, Follow
 
-@app.route('/user/create', methods=['POST', 'GET'])
+@app.route('/signup', methods=['POST', 'GET'])
 def signup():
     if request.method == 'POST':
         user = User(
@@ -63,18 +63,33 @@ def signup():
 
         return redirect(url_for('get_user'))
     else:
-        tags = Tag.query.all()
+        tags = Tag.query.filter(Tag.byUser == 0).all()
         return render_template('signin.html', tags=tags)
 
 @app.route('/user/index', methods=['GET'])
 def user_index():
-    return render_template('user/list-user.html')
+    title = "ユーザリスト"
+    users = db.session.query(User).filter(User.id != session['logged_in']['id']).all()
+    countLikes = []
+    for user in users:
+        like = db.session.query(Like).join(Post).filter(Like.post_id == Post.id).filter(Post.user_id == user.id).count()
+        countLikes.append(like)
+    return render_template('user/list-user.html', users = users, countUser = len(users), countLikes = countLikes, title = title)
 
 @app.route('/user', methods=['GET', 'POST'])
 def get_user():
+    if request.args.get('user_id') == None :
+        userId = session['logged_in']['id']
+        tagUser = session['tags']
+    else :
+        userId = request.args.get('user_id')
+
+    tagUser = db.session.query(Tag, UserTag).filter(UserTag.tag_id == Tag.id).filter(UserTag.user_id == userId).all()
     if request.method == 'GET':
+        userInfo = db.session.query(User).filter(User.id == userId).first()
         tags = db.session.query(Tag).all()
-        posts = db.session.query(Post, Tag).join(Tag).filter(Post.user_id==session['logged_in']['id'], Post.type==0, Tag.id==Post.tag_id).all()
+        posts = db.session.query(Post, Tag).join(Tag).filter(Post.user_id== userId, Post.type==0, Tag.id==Post.tag_id).all()
+        userFollow = db.session.query(Follow).filter(Follow.user_id == userId, Follow.follower_id == session['logged_in']['id']).count()
 
         posts_point = []
 
@@ -82,17 +97,19 @@ def get_user():
             post_point = db.session.query(Like).filter(Like.post_id==post['Post'].id).all()
             posts_point.append(len(post_point))
 
-        finished_tasks = db.session.query(Post).filter(Post.user_id==session['logged_in']['id'], Post.type==1, Post.finished==True).all()
-        unfinished_tasks = db.session.query(Post).filter(Post.user_id==session['logged_in']['id'], Post.type==1, Post.finished==False).all()
+        finished_tasks = db.session.query(Post).filter(Post.user_id == userId, Post.type==1, Post.finished==True).all()
+        unfinished_tasks = db.session.query(Post).filter(Post.user_id == userId, Post.type==1, Post.finished==False).all()
 
         return render_template('user/user-info.html',
-                                    user_info=session['logged_in'],
+                                    user_info= userInfo,
                                     posts=posts,
                                     tags=tags,
                                     length=len(posts),
                                     posts_point=posts_point,
                                     finished_tasks=finished_tasks,
-                                    unfinished_tasks=unfinished_tasks
+                                    unfinished_tasks=unfinished_tasks,
+                                    tagUser = tagUser,
+                                    userFollow = userFollow
                                 )
     else:
         if request.method == 'POST':
@@ -135,4 +152,24 @@ def get_user():
             session['tags'] = new_tags_session
 
             return redirect(url_for('get_user'))
-            
+
+@app.route('/follow/add', methods=['POST'])
+def add_follow():
+    follow = Follow(
+            follower_id = session['logged_in']["id"],
+            user_id = request.args.get('user_id'),
+        )
+    
+    db.session.add(follow)
+    db.session.commit()
+
+    return jsonify(1)
+
+@app.route('/follow/delete', methods=['DELETE'])
+def un_follow():
+    follow = db.session.query(Follow).filter(Follow.user_id == request.args.get('user_id'), Follow.follower_id == session['logged_in']['id']).first()
+    
+    db.session.delete(follow)
+    db.session.commit()
+
+    return jsonify(1)

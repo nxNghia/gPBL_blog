@@ -41,7 +41,8 @@ def create_post():
                 content = request.form['content'],
                 tag_id = request.form['tag_id'],
                 type = False,
-                user_id = session['logged_in']['id']
+                user_id = session['logged_in']['id'],
+                finished = False
             )
             db.session.add(post)
             db.session.commit()
