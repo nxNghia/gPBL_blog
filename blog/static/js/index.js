@@ -93,3 +93,52 @@ $(".unlike").click(function(){
         },
     });
 });
+
+
+$(".detail-follow").click(function(){
+    var csrf_token = "{{ csrf_token() }}";
+    url = $(this).attr("path")
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": csrf_token,
+        },
+    });
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {},
+        success: function (data) {
+            
+            $(".detail-follow" ).hide();
+            $(".detail-unfollow" ).show();
+        },
+        error: function () {
+            alert("Something wrong please try again!");
+        },
+    });
+});
+
+$(".detail-unfollow").click(function(){
+    var csrf_token = "{{ csrf_token() }}";
+    url = $(this).attr("path")
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": csrf_token,
+        },
+    });
+    $.ajax({
+        url: url,
+        type: "DELETE",
+        data: {},
+        success: function (data) {
+            
+            $(".detail-follow" ).show();
+            $(".detail-unfollow" ).hide();
+        },
+        error: function () {
+            alert("Something wrong please try again!");
+        },
+    });
+});

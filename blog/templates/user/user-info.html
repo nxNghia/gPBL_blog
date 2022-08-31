@@ -13,17 +13,33 @@
 
 <div class="container">
     <div class="basic-info">
-        <img class="update-icon" alt="update-icon" src="{{ url_for('static', filename='icons/update-button.svg') }}" />
+        {% if user_info.id == session['logged_in']['id'] %}
+            <img class="update-icon" alt="update-icon" src="{{ url_for('static', filename='icons/update-button.svg') }}" />
+        {%endif%}
         <div class="header">
             <div class="avatar-container">
                 <img class="avatar" src="https://i.pravatar.cc/300" alt="avatar" />
             </div>
             <div class="header-info">
                 <span>{{ user_info.username }}</span>
-                <div class="button-group">
-                    <a href="#">フォロー</a>
-                    <a href="#">フォロワー</a>
-                </div>
+                {% if user_info.id != session['logged_in']['id'] %}
+                    <div class="button-group">
+                        {% if userFollow > 0%}
+                            <a class="detail-unfollow" path="{{ url_for('un_follow', user_id = user_info.id )}}" href="javascript:void(0)">unfollow</a>
+                            <a class="detail-follow" path="{{ url_for('add_follow', user_id = user_info.id )}}" style="display: none;" href="javascript:void(0)">フォロー</a>
+                        {% else %}
+                            <a class="detail-follow" path="{{ url_for('add_follow', user_id = user_info.id )}}" href="javascript:void(0)">フォロー</a>
+                            <a class="detail-unfollow" path="{{ url_for('un_follow', user_id = user_info.id )}}" style="display: none;" href="javascript:void(0)">unfollow</a>
+
+                        {%endif%}
+                    </div>
+                {% endif %}
+                {% if user_info.id == session['logged_in']['id'] %}
+                    <div class="button-group">
+                        <a href="#">フォロー</a>
+                        <a href="#">フォロワー</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -50,8 +66,8 @@
         <div class="category">
             <label>力を入れたい科目</label>
             <div>
-                {% for tag in session['tags'] %}
-                    <span class="text-dark mr-3 font-weight-bold">{{ tag.name }}</span>
+                {% for tag in tagUser %}
+                    <span class="text-dark mr-3 font-weight-bold">{{ tag['Tag'].name }}</span>
                 {% endfor %}
             </div>
         </div>
@@ -94,7 +110,7 @@
                 <div>
                     <select name="tag1" class="form-select" aria-label="Default select example">
                         {% for sub_tag in tags %}
-                            {% if sub_tag.id == session['tags'][0].id %}
+                            {% if sub_tag.id == tagUser[0]['Tag'].id %}
                                 <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
                             {% else %}
                                 <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
@@ -103,7 +119,7 @@
                     </select>
                     <select name="tag2" class="form-select" aria-label="Default select example">
                         {% for sub_tag in tags %}
-                            {% if sub_tag.id == session['tags'][1].id %}
+                            {% if sub_tag.id == tagUser[1]['Tag'].id %}
                                 <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
                             {% else %}
                                 <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
@@ -112,13 +128,14 @@
                     </select>
                     <select name="tag3" class="form-select" aria-label="Default select example">
                         {% for sub_tag in tags %}
-                            {% if sub_tag.id == session['tags'][2].id %}
+                            {% if sub_tag.id == tagUser[2]['Tag'].id %}
                                 <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
                             {% else %}
                                 <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
                             {% endif %}
                         {% endfor %}
                     </select>
+                    
                 </div>
             </div>
             <div class="d-flex btn-edit justify-content-center">
