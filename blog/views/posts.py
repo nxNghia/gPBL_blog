@@ -3,6 +3,8 @@ from blog import app, db
 from blog.models.models import Post, Tag, User, Comment, Like
 from datetime import datetime
 
+from blog.views import room
+
 @app.route('/post/index', methods=['GET'])
 def post_index():
     posts = db.session.query(Post, User, Tag).join(User, Tag).filter(Post.type==0).all()
@@ -19,9 +21,17 @@ def post_index():
 
 @app.route('/post/create', methods=['GET', 'POST'])
 def create_post():
+    print(request.args)
+    if request.args.get('room') == None :
+        room_id = None
+    else:
+        room_id = request.args.get('room')
+
+    print(room_id)
+
     if request.method == 'GET':
         tags = Tag.query.all()
-        return render_template('post/post-create.html', tags=tags)
+        return render_template('post/post-create.html', tags=tags, room_id=room_id)
     else:
         if request.form['type'] == '0':
             post = Post(
@@ -42,7 +52,8 @@ def create_post():
                 tag_id = request.form['tag_id'],
                 type = False,
                 user_id = session['logged_in']['id'],
-                finished = False
+                finished = False,
+                room_id = room_id
             )
             db.session.add(post)
             db.session.commit()

@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/list-post.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/list-user.css') }}">
+{% endblock %}
+
+{% block body %}
+<div>
+    <div class="title mb-3">
+        {% if joined == 0 %}
+            <form action="{{ url_for('join_room', room=id, user_id=session['logged_in'].id) }}" method=post>
+                <input value="参加" type="submit" />
+            </form>
+        {% else %}
+            <form action="{{ url_for('exit_room', room=id, user_id=session['logged_in'].id) }}" method=post>
+                <input value="参加しない" type="submit" />
+            </form>
+            <a href="{{ url_for('create_post', room=id) }}"><img src="{{ url_for('static', filename='img/create.png') }}"></a>
+        {% endif %}
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="form-check form-check-inline mr-5 input-radio">
+            <input name="type" class="form-check-input" type="radio" id="gridRadios1" value="1" checked>
+            <label class="form-check-label" for="gridRadios1">日付</label>
+        </div>
+        <div class="form-check form-check-inline ml-3 input-radio">
+            <input class="form-check-input" type="radio" name="type" id="gridRadios2" value="0">
+            <label class="form-check-label" for="gridRadios2">応援</label>
+        </div>
+    </div>
+    <div class="user mt-4">
+        <ul class="p-4">
+            {% for i in range(0, length) %}
+            <li class="py-2 px-3 mb-3">
+                <div class="d-flex row p-3">
+                    <div class="avatar col-3 d-flex flex-column text-center align-items-center">
+                        <img src="{{ url_for('static', filename='img/man-avatar.png') }}">
+                        <span class="mt-3 px-5 py-1">{{ posts[i]['User'].username }}</span>
+                        <div class="post-point d-flex flex-column mt-3">
+                            {% if userLike[i] > 0 %}
+                                <img src="{{ url_for('static', filename='img/like.png') }}" class="applause-icon mb-2" />
+                            {% else %}
+                                <img action="{{ posts[i]['Post'].id  }}" path="{{ url_for('add_like', post_id = posts[i]['Post'].id ) }}" src="{{ url_for('static', filename='img/unlike.png') }}" class="applause-icon mb-2 unlike" />
+                                <img src="{{ url_for('static', filename='img/like.png') }}" style="display: none;" class="applause-icon mb-2 icon-like" />
+                            {% endif %}
+                            <p><span value="{{ point[i] }}" class="countLike-{{ posts[i]['Post'].id }}">{{ point[i] }}</span> pt</p>
+                        </div>
+                    </div>
+                    <div class="post-title col-9 mb-3 d-flex flex-column">
+                        <div class="d-flex">
+                            <div class="content p-2 col-9">
+                                {{ posts[i]['Post'].title }}
+                            </div>
+                            <div class="btn-detail col-2 d-flex align-items-end">
+                                <a href="javascript:void(0)" class="btn px-5 py-1">{{ posts[i]['Tag'].name }}</a>
+                            </div>
+                        </div>
+                        <div class="post-content mt-3 p-2">
+                            <span>
+                                {{ posts[i]['Post'].content }}
+                            </span>
+                        </div>
+                        <a href="{{ url_for('detail_post', id=posts[i]['Post'].id) }}">詳細</a>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -35,6 +35,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     deadline = db.Column(db.Date, nullable=True)
     finished = db.Column(db.Boolean, nullable=False)
+    room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=True)
 
     # def __init__(self, data):
     #     """
@@ -135,3 +136,24 @@ class Follow(db.Model):
 
     def __repr__(self):
         return '<Follows id:{} user_id:{} follower_id:{}>'.format(self.id, self.user_id, self.follower_id)
+
+class Room(db.Model):
+    __tablename__ = 'room'
+
+    id = db.Column(db.Integer, primary_key=True)
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(200), nullable=True)
+
+    def __repr__(self):
+        return '<Room id:{} owner_id:{} name:{} description:{}>'.format(self.id, self.owner_id, self.name, self.description)
+
+class RoomUser(db.Model):
+    __tablename__ = 'room_user'
+
+    id = db.Column(db.Integer, primary_key=True)
+    room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __repr__(self):
+        return '<RoomUser room_id:{} user_id:{}>'.format(self.room_id, self.user_id)

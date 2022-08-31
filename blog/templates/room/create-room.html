@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/post.css') }}">
+{% endblock %}
+
+{% block body %}
+<div>
+    <form action="{{ url_for('room_create') }}" method=post autocomplete="off">
+        <div>
+            <label>ルーム名</label>
+            <input name="name" type="text" />
+        </div>
+        <div>
+            <label>ルーム説明</label>
+            <textarea name="description" rows="10"></textarea>
+        </div>
+        <div>
+            <input type="submit" value="決定" />
+        </div>
+    </form>
+</div>
+{% endblock %}
