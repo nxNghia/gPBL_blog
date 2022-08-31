@@ -5,7 +5,7 @@
 
 {% block body %}
 <div class="create-form">
-    <form action="{{ url_for('create_post') }}" method=post>
+    <form action="{{ url_for('create_post', room=room_id) }}" method=post>
         <select name="type" class="create-select-type">
             <option value="1">投稿</option>
             <option value="0">タスク</option>

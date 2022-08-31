@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block css%}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/list-user.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/list-post.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/list-user.css') }}">
+{% endblock %}
+{% block class %}
+    <body class="list-user">
+{% endblock %}
+{% block body %}
+    <div class="title d-flex justify-content-center">
+        <h2 class="px-5 py-1">ルーム</h2>
+    </div>
+    <div class="title mb-3">
+        <a href="{{ url_for('room_create') }}"><img src="{{ url_for('static', filename='img/create.png') }}"></a>
+    </div>
+    <div class="user">
+        <ul class="p-4">
+            {% for room in rooms %}
+                <li class="py-2 px-3 mb-3">
+                    <div class="d-flex row p-3">
+                        <div class="avatar col-3 d-flex flex-column text-center align-items-center">
+                            <img src="{{ url_for('static', filename='img/man-avatar.png') }}">
+                            <span class="mt-3 px-5 py-1">{{ room['User'].username }}</span>
+                        </div>
+                        <div class="user-infor col-8 mb-3 d-flex">
+                            <div>
+                                <span>{{ room['Room'].name }}</span>
+                            </div>
+                            <div class="btn-detail col-2 d-flex align-items-end">
+                                <a href="{{ url_for('get_room', id=room['Room'].id) }}" class="btn px-5 py-1">詳細</a>
+                            </div>  
+                        </div>
+                    
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
