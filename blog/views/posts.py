@@ -5,7 +5,7 @@ from datetime import datetime
 
 @app.route('/post/index', methods=['GET'])
 def post_index():
-    posts = db.session.query(Post, User, Tag).join(User, Tag).filter(User.id==Post.user_id, Post.type==0, Post.tag_id==Tag.id).all()
+    posts = db.session.query(Post, User, Tag).join(User, Tag).filter(Post.type==0).all()
     
     point = []
     userLike = []

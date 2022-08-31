@@ -22,16 +22,15 @@
                 </div>
             </li>
             <li class="nav-item col-10 d-flex align-items-center text-center align-item-center justify-content-center">
-                <form class="form-inline my-2 my-lg-0">
+                <form class="form-inline my-2 my-lg-0" action="{{ url_for('searching') }}" method=get>
                     <div class="search-input">
                         <img src="{{ url_for('static', filename='img/search.svg') }}">
-                        <input class="mr-3 px-5 py-4" type="search" aria-label="Search">
+                        <input class="mr-3 px-5 py-4" type="search" aria-label="Search" name="search-box">
                     </div>
-                    <select class="px-2 py-4">
-                        <option></option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
+                    <select name="search-type" class="px-2 py-4">
+                        <option value="0">ユーザ名</option>
+                        <option value="1">タグ</option>
+                        <option value="2">キーワド</option>
                     </select>
                 </form>
             </li>

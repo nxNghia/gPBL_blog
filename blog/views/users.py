@@ -173,3 +173,50 @@ def un_follow():
     db.session.commit()
 
     return jsonify(1)
+
+@app.route('/search', methods=['GET'])
+def searching():
+    search_value = request.args.get('search-box')
+    search_type = request.args.get('search-type')
+    
+    if search_type == '0':
+        users = db.session.query(User).filter(User.username.contains(search_value)).all()
+        info = []
+        for user in users:
+            related_tags = db.session.query(Tag).join(UserTag).filter(UserTag.user_id==user.id).all()
+            _tags_ = []
+            for tag in related_tags:
+                _tags_.append({
+                    "id": tag.id,
+                    "name": tag.name
+                })
+            info.append({
+                "user": user,
+                "tags": _tags_
+            })
+        return render_template('user/list-user.html', users=users, info=info)
+    else:
+        if search_type == '2':
+            posts = db.session.query(Post, Tag, User).join(Tag, User).filter(Post.title.contains(search_value) | Post.content.contains(search_value)).all()
+
+            point = []
+            userLike = []
+            for post in posts:
+                _point_ = db.session.query(Like).filter(Like.post_id==post['Post'].id).all()
+                point.append(len(_point_))
+                like = db.session.query(Like).filter(Like.post_id == post['Post'].id, Like.user_id == session["logged_in"]['id']).count()
+                userLike.append(like)
+            return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike)
+        else:
+            posts = db.session.query(Post, User, Tag).join(Tag, User).filter(Tag.name.contains(search_value)).all()
+            point = []
+            userLike = []
+            for post in posts:
+                _point_ = db.session.query(Like).filter(Like.post_id==post['Post'].id).all()
+                point.append(len(_point_))
+                like = db.session.query(Like).filter(Like.post_id == post['Post'].id, Like.user_id == session["logged_in"]['id']).count()
+                userLike.append(like)
+
+            print(posts)
+
+            return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike)

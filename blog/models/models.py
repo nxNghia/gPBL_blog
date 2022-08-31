@@ -68,8 +68,8 @@ class UserTag(db.Model):
     __tablename__ = 'user_tags'
 
     id = db.Column(db.Integer, primary_key=True)
-    tag_id = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     # def __init__(self, data):
     #     """
