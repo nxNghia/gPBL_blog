@@ -6,7 +6,7 @@ from blog.models.models import User, Tag, UserTag
 def show_entries():
     if not session.get('logged_in'):
         return redirect('/login')
-    return render_template('user/list-user.html')
+    return redirect(url_for('get_user'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

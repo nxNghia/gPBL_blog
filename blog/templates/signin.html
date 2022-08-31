@@ -47,24 +47,40 @@
         </div>
         <div class="form-group d-flex row form-check-inline">
             <label class="col-3" for="tag">力を入れたい科目</label>
-            <select class="form-control col-2 mr-3 ml-2" required id="exampleFormControlSelect1" name="tag1">
+            <select path="{{ url_for('tag_child') }}" class="form-control col-2 mr-3 ml-2 tag-1" required id="exampleFormControlSelect1">
                 <option value="-1">選択</option>
                 {% for tag in tags %}
                     <option value="{{ tag.id }}">{{ tag.name }}</option>
                 {% endfor %}
             </select>
-            <select class="form-control col-2 mr-3" required id="exampleFormControlSelect1" name="tag2">
+            <select class="form-control col-2 mr-3 option-tag-1" required id="exampleFormControlSelect1" name="tag1">
+                <option value="-1" class="">選択</option>
+            </select>
+        </div>
+        <div class="form-group d-flex row form-check-inline mt--3">
+            <label class="col-3"></label>
+            <select path="{{ url_for('tag_child') }}" class="form-control col-2 mr-3 ml-2 tag-2" required id="exampleFormControlSelect1">
                 <option value="-1">選択</option>
                 {% for tag in tags %}
                     <option value="{{ tag.id }}">{{ tag.name }}</option>
                 {% endfor %}
             </select>
-            <select class="form-control col-2" required id="exampleFormControlSelect1" name="tag3">
+            <select class="form-control col-2 mr-3 option-tag-2" required id="exampleFormControlSelect1" name="tag2">
+                <option value="-1" class="">選択</option>
+            </select>
+            
+        </div>
+        <div class="form-group d-flex row form-check-inline mt--3">
+            <label class="col-3"></label>
+            <select path="{{ url_for('tag_child') }}" class="form-control col-2 mr-3 ml-2 tag-3" required id="exampleFormControlSelect1">
                 <option value="-1">選択</option>
                 {% for tag in tags %}
                     <option value="{{ tag.id }}">{{ tag.name }}</option>
                 {% endfor %}
-              </select>
+            </select>
+            <select class="form-control col-2 mr-3 option-tag-3" required id="exampleFormControlSelect1" name="tag3">
+                <option value="-1" class="">選択</option>
+            </select>
         </div>
         <button type="submit" class="btn">決定</button>
     </form>
@@ -73,5 +89,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="application/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>

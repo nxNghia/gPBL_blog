@@ -142,3 +142,120 @@ $(".detail-unfollow").click(function(){
         },
     });
 });
+
+$(".tag-1").on("change", function(){
+    var csrf_token = "{{ csrf_token() }}";
+    url = $(this).attr("path")
+    url = url + "?tag_id=" + $(this).val()
+    if ($(".option-tag-1").attr("name") != "")
+        name1 = $(".option-tag-1").attr("name")
+    else  name1 = $(".tag-1").attr("name")
+    $(".option-tag-1").children(".optiontag-1").remove()
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": csrf_token,
+        },
+    });
+    $.ajax({
+        url: url,
+        type: "GET",
+        data: {},
+        success: function (data) {
+            html = ""
+            if (data.length == 0) { 
+                $(".tag-1").attr("name", name1) 
+                $(".option-tag-1").attr("name", "") 
+            } else {
+                for (let i = 0 ; i< data.length ; i++) {
+                    html = html + `
+                    <option class="optiontag-1" value="` + data[i]["id"]+`">`+ data[i]['name']+`</option>`
+                }
+                $(".tag-1").attr("name", "") 
+                $(".option-tag-1").attr("name", name1) 
+                $(".option-tag-1").append(html)
+            } 
+        },
+        error: function () {
+            alert("Something wrong please try again!");
+        },
+    });
+});
+
+$(".tag-2").on("change", function(){
+    var csrf_token = "{{ csrf_token() }}";
+    url = $(this).attr("path")
+    url = url + "?tag_id=" + $(this).val()
+    if ($(".option-tag-2").attr("name") != "")
+        name1 = $(".option-tag-2").attr("name")
+    else  name1 = $(".tag-2").attr("name")
+    $(".option-tag-2").children(".optiontag-2").remove()
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": csrf_token,
+        },
+    });
+    $.ajax({
+        url: url,
+        type: "GET",
+        data: {},
+        success: function (data) {
+            html = ""
+            if (data.length == 0) { 
+                $(".tag-2").attr("name", name1) 
+                $(".option-tag-2").attr("name", "") 
+            } else {
+                for (let i = 0 ; i< data.length ; i++) {
+                    html = html + `
+                    <option class="optiontag-2" value="` + data[i]["id"]+`">`+ data[i]['name']+`</option>`
+                }
+                $(".tag-2").attr("name", "") 
+                $(".option-tag-2").attr("name", name1) 
+                $(".option-tag-2").append(html)
+            } 
+        },
+        error: function () {
+            alert("Something wrong please try again!");
+        },
+    });
+});
+
+$(".tag-3").on("change", function(){
+    var csrf_token = "{{ csrf_token() }}";
+    url = $(this).attr("path")
+    url = url + "?tag_id=" + $(this).val()
+    if ($(".option-tag-3").attr("name") != "")
+        name1 = $(".option-tag-3").attr("name")
+    else  name1 = $(".tag-3").attr("name")
+    $(".option-tag-3").children(".optiontag-3").remove()
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": csrf_token,
+        },
+    });
+    $.ajax({
+        url: url,
+        type: "GET",
+        data: {},
+        success: function (data) {
+            html = ""
+            if (data.length == 0) { 
+                $(".tag-3").attr("name", name1) 
+                $(".option-tag-3").attr("name", "") 
+            } else {
+                for (let i = 0 ; i< data.length ; i++) {
+                    html = html + `
+                    <option class="optiontag-3" value="` + data[i]["id"]+`">`+ data[i]['name']+`</option>`
+                }
+                $(".tag-3").attr("name", "") 
+                $(".option-tag-3").attr("name", name1) 
+                $(".option-tag-3").append(html)
+            } 
+        },
+        error: function () {
+            alert("Something wrong please try again!");
+        },
+    });
+});

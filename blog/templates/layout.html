@@ -36,7 +36,13 @@
             </li>
             <li class="nav-item dropdown col-1 d-flex justify-content-end">
                 <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="{{ url_for('static', filename='img/man-avatar.png') }}">
+                    {% if session['logged_in']['gender'] == 1%}
+                        <img src="{{ url_for('static', filename='img/man.png') }}">
+                    {% elif session['logged_in'] == 0 %}
+                        <img src="{{ url_for('static', filename='img/woman.png') }}">
+                    {%else%}
+                        <img src="{{ url_for('static', filename='img/nosex.png') }}">
+                    {%endif%}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% if not session.logged_in %}

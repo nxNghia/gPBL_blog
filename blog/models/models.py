@@ -55,14 +55,16 @@ class Tag(db.Model):
     byUser = db.Column(db.Boolean, nullable=True)
     parent_tag = db.Column(db.Integer, default=-1)
 
-    # def __init__(self, data):
-    #     """
-    #     Class constructor
-    #     """
-    #     self.name = data.get('name')
-
+    def selialize(self):
+        return {
+            'id' : self.id,
+            'name': self.name,
+            'byUser': self.byUser,
+            'parent_tag' : self.parent_tag
+        }
+        
     def __repr__(self):
-        return '<Tags id:{} name:{}>'.format(self.id, self.name)
+        return '<Tags id:{} name:{} parent_tag: {}>'.format(self.id, self.name, self.parent_tag)
 
 class UserTag(db.Model):
     __tablename__ = 'user_tags'
