@@ -1,9 +1,6 @@
 from flask import request, redirect, url_for, render_template, flash, session, jsonify
 from blog import app, db
 from blog.models.models import Post, Tag, User, Comment, Like
-from datetime import datetime
-import numpy
-import json
 
 
 @app.route('/tag-child', methods=['GET'])
