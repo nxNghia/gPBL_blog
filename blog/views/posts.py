@@ -60,6 +60,29 @@ def create_post():
 
     return redirect(url_for('post_index'))
 
+@app.route('/post/update/<int:id>', methods=['POST', 'GET'])
+def edit_post(id):
+    if request.method == 'GET':
+        post = db.session.query(Post).filter(Post.id==id).first()
+        tags = Tag.query.all()
+        return render_template('post/post-edit.html', post=post, id=id, tags=tags)
+
+    else:
+        if request.method == 'POST':
+            post = Post.query.get(id)
+            post.title = request.form['title']
+            post.content = request.form['content']
+            post.tag_id = request.form['tag_id']
+            db.session.commit()
+            return redirect(url_for('edit_post', id=id))
+
+@app.route('/post/delete/<int:id>', methods=['GET'])
+def delete_post(id):
+    post = Post.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('user_index'))
+
 
 @app.route('/post/<int:id>', methods=['GET'])
 def detail_post(id):

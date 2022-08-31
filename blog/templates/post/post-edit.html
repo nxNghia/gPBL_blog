@@ -5,21 +5,23 @@
 
 {% block body %}
 <div class="create-form">
-    <form action="{{ url_for('create_post', room=room_id) }}" method=post>
+    <!-- {{ post, id }} -->
+    <form action="{{ url_for('edit_post', id=id) }}" method=post>
         <select name="type" class="create-select-type">
             <option value="1">投稿</option>
             <option value="0">タスク</option>
         </select>
+        {{ post }}
         <div class="row">
-            <span class="posting-field font-weight-bold">タイトル</span>
-            <input name="title" class="title-input" />
+            <span class="posting-field">タイトル</span>
+            <input name="title" class="title-input" value="{{ post.title }}"/>
         </div>
         <div class="posting-content row">
-            <span class="posting-field font-weight-bold">本文</span>
-            <textarea name="content" rows="15"></textarea>
+            <span class="posting-field">本文</span>
+            <textarea name="content" rows="15">{{ post.content | safe }}</textarea>
         </div>
         <div class="tag-selection-container row">
-            <span class="posting-field font-weight-bold">タグ</span>
+            <span class="posting-field">タグ</span>
             <select name="tag_id" class="tag-selection">
                 {% for tag in tags %}
                 <option value="{{ tag.id }}">{{ tag.name }}</option>
@@ -27,11 +29,11 @@
             </select>
         </div>
         <div class="row create-post-date" style="display: none;">
-            <span class="posting-field font-weight-bold">日付</span>
-            <input type="date" class="date-selecting-box" name="deadline" />
+            <span class="posting-field">日付</span>
+            <input type="date" class="date-selecting-box" name="deadline" value={{ post.title }}/>
         </div>
         <div class="button-group">
-            <input type="submit" value="投稿" class="save-btn" />
+            <input type="submit" value="更新" class="save-btn" />
             <div class="cancel-btn">キャンセル</div>
         </div>
     </form>
