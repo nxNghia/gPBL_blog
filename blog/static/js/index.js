@@ -68,10 +68,11 @@ $(".btn-comment").click(function(){
 });
 
 
-$(".unlike").click(function(){
+$(".unlikee").click(function(){
     var csrf_token = "{{ csrf_token() }}";
     url = $(this).attr("path")
     var className = ".countLike-" + $(this).attr("action") 
+    id = $(this).attr("action")
 
     $.ajaxSetup({
         headers: {
@@ -85,8 +86,8 @@ $(".unlike").click(function(){
         },
         success: function (data) {
             $(className).text(parseInt($(className).text()) + 1)
-            $(".icon-like").show()
-            $(".unlike").hide()
+            $(".icon-like-"+ id).show()
+            $(".unlike-" + id).hide()
         },
         error: function () {
             alert("Something wrong please try again!");
