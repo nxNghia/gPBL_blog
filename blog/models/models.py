@@ -92,13 +92,13 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
-    # def __init__(self, data):
-    #     """
-    #     Class constructor
-    #     """
-    #     self.content = data.get('content')
-    #     self.user_id = data.get('user_id')
-    #     self.post_id = data.get('post_id')
+    def selialize(self):
+        return {
+            'id' : self.id,
+            'content': self.content,
+            'user_id': self.user_id,
+            'post_id' : self.post_id
+        }
 
     def __repr__(self):
         return '<Comments id:{} content:{} user_id:{} post_id:{}>'.format(self.id, self.content, self.user_id, self.post_id)

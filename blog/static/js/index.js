@@ -144,6 +144,7 @@ $(".detail-unfollow").click(function(){
     });
 });
 
+// signup
 $(".tag-1").on("change", function(){
     var csrf_token = "{{ csrf_token() }}";
     url = $(this).attr("path")
@@ -260,3 +261,73 @@ $(".tag-3").on("change", function(){
         },
     });
 });
+
+//edit-comment
+$(".edit-comment").on("click", function(){
+    id = $(this).attr("id")
+    $(this).hide()
+    $(".delete-comment-" + id).hide()
+    $(".save-comment-" + id).show()
+    $(".input-comment-" +id).val($(".content-" + id).text())
+    $(".content-" + id).hide()
+    $(".input-comment-" +id).show()
+});
+
+$(".save-comment ").on("click", function(){
+    var csrf_token = "{{ csrf_token() }}";
+    url = $(this).attr("path")
+    id =  $(this).attr("id")
+    content = $(".input-comment-" +id).val()
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": csrf_token,
+        },
+    });
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+            'content' : content
+        },
+        success: function (data) {
+            $(".delete-comment-" + id).show()
+            $(".edit-comment-" + id).show()
+            $(".save-comment-" + id).hide()
+            $(".content-" +id).text(content)
+            $(".input-comment-" +id).hide()
+            $(".content-" + id).show()
+        },
+        error: function () {
+            alert("Something wrong please try again!");
+        },
+    });
+});
+
+
+$(".delete-comment ").on("click", function(){
+    var csrf_token = "{{ csrf_token() }}";
+    url = $(this).attr("path")
+    id =  $(this).attr("id")
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": csrf_token,
+        },
+    });
+    if (confirm('Are you sure you want to delete this?')) {
+        $.ajax({
+            url: url,
+            type: "DELETE",
+            data: {
+            },
+            success: function (data) {
+            $(".block-comment-" +id).remove()
+            },
+            error: function () {
+                alert("Something wrong please try again!");
+            },
+        });
+    }
+});
+
