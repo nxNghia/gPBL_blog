@@ -49,6 +49,45 @@ def create_post():
 
     return redirect(url_for('post_index'))
 
+@app.route('/post/edit', methods=['GET'])
+##@login_required
+def edit_post(id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    post = Post.query.get(id)
+    return render_template('post/post-edit.html', post=post)
+
+
+@app.route('/post/update', methods=['POST'])
+##@login_required
+def update_post(id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    post = Post.query.get(id)
+    print(post)
+
+    # post.title = request.form['title']
+    # post.text = request.form['text']
+    # post.tag = request.form['tag']
+
+
+    # db.session.merge(post)
+    # db.session.commit()
+    
+   # flash('投稿が更新されました')
+    return redirect(url_for('show'))
+
+@app.route('/post/delete', methods=['POST'])
+##@login_required
+def delete_post(id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    post = Post.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    flash('投稿が削除されました')
+    return redirect(url_for('show'))
+
 
 @app.route('/post/<int:id>', methods=['GET'])
 def detail_post(id):
