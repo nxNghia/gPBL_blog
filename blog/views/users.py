@@ -63,18 +63,28 @@ def signup():
 
         return redirect(url_for('get_user'))
     else:
-        tags = Tag.query.filter(Tag.byUser == 0).all()
+        tags = Tag.query.filter(Tag.byUser == 0).filter(Tag.parent_tag == -1).all()
         return render_template('signin.html', tags=tags)
 
 @app.route('/user/index', methods=['GET'])
 def user_index():
     title = "ユーザリスト"
     users = db.session.query(User).filter(User.id != session['logged_in']['id']).all()
-    countLikes = []
+    info = []
     for user in users:
-        like = db.session.query(Like).join(Post).filter(Like.post_id == Post.id).filter(Post.user_id == user.id).count()
-        countLikes.append(like)
-    return render_template('user/list-user.html', users = users, countUser = len(users), countLikes = countLikes, title = title)
+        related_tags = db.session.query(Tag).join(UserTag).filter(UserTag.user_id==user.id).all()
+        _tags_ = []
+        for tag in related_tags:
+            _tags_.append({
+                "id": tag.id,
+                "name": tag.name
+            })
+        info.append({
+            "user": user,
+            "tags": _tags_
+        })
+
+    return render_template('user/list-user.html', users=users, info=info, title = title)
 
 @app.route('/user', methods=['GET', 'POST'])
 def get_user():
@@ -178,7 +188,8 @@ def un_follow():
 def searching():
     search_value = request.args.get('search-box')
     search_type = request.args.get('search-type')
-    
+    title = "ユーザリストの結果"
+
     if search_type == '0':
         users = db.session.query(User).filter(User.username.contains(search_value)).all()
         info = []
@@ -194,7 +205,7 @@ def searching():
                 "user": user,
                 "tags": _tags_
             })
-        return render_template('user/list-user.html', users=users, info=info)
+        return render_template('user/list-user.html', users=users, info=info, title = title)
     else:
         if search_type == '2':
             posts = db.session.query(Post, Tag, User).join(Tag, User).filter(Post.title.contains(search_value) | Post.content.contains(search_value)).all()

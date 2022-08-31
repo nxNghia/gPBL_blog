@@ -5,4 +5,4 @@ app = Flask(__name__)
 app.config.from_object('blog.config')
 db = SQLAlchemy(app)
 
-from blog.views import views, users, posts
+from blog.views import views, users, posts, tags

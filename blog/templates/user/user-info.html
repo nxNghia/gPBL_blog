@@ -18,7 +18,13 @@
         {%endif%}
         <div class="header">
             <div class="avatar-container">
-                <img class="avatar" src="https://i.pravatar.cc/300" alt="avatar" />
+                {% if user_info.gender == 1%}
+                    <img class="avatar"src="{{ url_for('static', filename='img/man.png') }}" alt="avatar" />
+                {% elif user_info.gender == 0 %}
+                    <img class="avatar" src="{{ url_for('static', filename='img/woman.png') }}" alt="avatar" />
+                {%else%}
+                    <img class="avatar" src="{{ url_for('static', filename='img/nosex.png') }}" alt="avatar" />
+                {%endif%}
             </div>
             <div class="header-info">
                 <span>{{ user_info.username }}</span>
