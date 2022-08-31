@@ -10,12 +10,12 @@ def show_entries():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    print(User.query.all())
     if request.method == 'POST':
         users = User.query.filter_by(username=request.form['username'], password=request.form['password']).first()
         if users is None:
-            flash('ユーザ名やパスワードが正しくない。')
+            flash('ユーザ名やパスワードが正しくありません。')
         else:
-            print(users)
             _session = {
                 "id": users.id,
                 "username": users.username,
@@ -25,7 +25,6 @@ def login():
                 "school_year": users.school_year
             }
             session['logged_in'] = _session
-
             user_tags = db.session.query(Tag).filter(UserTag.tag_id==Tag.id, UserTag.user_id==users.id).all()
 
             tags = []
@@ -36,11 +35,11 @@ def login():
                     "id": tag.id,
                     "name": tag.name
                 })
-
             session['tags'] = tags
-
             return redirect(url_for('get_user'))
     return render_template('login.html')
+
+
 
 @app.route('/logout')
 def logout():

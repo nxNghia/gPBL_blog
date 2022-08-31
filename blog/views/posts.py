@@ -49,36 +49,23 @@ def create_post():
 
     return redirect(url_for('post_index'))
 
-@app.route('/post/edit', methods=['GET'])
-##@login_required
+@app.route('/post/update/<int:id>', methods=['POST'])
 def edit_post(id):
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-    post = Post.query.get(id)
-    return render_template('post/post-edit.html', post=post)
+    if request.method == 'GET':
+        return render_template('post/post-edit.html', post=post)
 
-
-@app.route('/post/update', methods=['POST'])
-##@login_required
-def update_post(id):
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-    post = Post.query.get(id)
-    print(post)
-
-    # post.title = request.form['title']
-    # post.text = request.form['text']
-    # post.tag = request.form['tag']
-
-
-    # db.session.merge(post)
-    # db.session.commit()
-    
+    else:
+        if request.method == 'POST':
+            post = Post.query.get(id)
+            post.title = request.form['title']
+            post.content = request.form['content']
+            post.tag_id = request.form['tag_id']
+            db.session.commit()
+                
    # flash('投稿が更新されました')
-    return redirect(url_for('show'))
+    return redirect(url_for('edit_post'))
 
-@app.route('/post/delete', methods=['POST'])
-##@login_required
+@app.route('/post/delete/<int:id>', methods=['POST'])
 def delete_post(id):
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -86,7 +73,7 @@ def delete_post(id):
     db.session.delete(post)
     db.session.commit()
     flash('投稿が削除されました')
-    return redirect(url_for('show'))
+    return redirect(url_for('delete_post'))
 
 
 @app.route('/post/<int:id>', methods=['GET'])
