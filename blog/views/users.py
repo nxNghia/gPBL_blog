@@ -269,3 +269,24 @@ def list_follower():
         })
 
     return render_template('user/list-user.html', users=users, info=info, title = title)
+
+@app.route('/user/ranking', methods=['GET'])
+def user_ranking():
+    title = "頑張っている人たち"
+    users = User.query.order_by(User.point.desc()).all()
+
+    info = []
+    for user in users:
+        related_tags = db.session.query(Tag).join(UserTag).filter(UserTag.user_id==user.id).all()
+        _tags_ = []
+        for tag in related_tags:
+            _tags_.append({
+                "id": tag.id,
+                "name": tag.name
+            })
+        info.append({
+            "user": user,
+            "tags": _tags_
+        })
+
+    return render_template('user/list-user.html', users=users, info=info, title = title)

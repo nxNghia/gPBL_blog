@@ -21,13 +21,10 @@ def post_index():
 
 @app.route('/post/create', methods=['GET', 'POST'])
 def create_post():
-    print(request.args)
     if request.args.get('room') == None :
         room_id = None
     else:
         room_id = request.args.get('room')
-
-    print(room_id)
 
     if request.method == 'GET':
         tags = Tag.query.all()
@@ -124,5 +121,22 @@ def add_like():
     userUpdate = User.query.filter_by(id=user.id).update(dict(point = user.point + 1))
     db.session.commit()
 
+
+    return jsonify(1)
+
+
+@app.route('/comment/edit', methods=['POST'])
+def edit_comment():
+    comment = Comment.query.filter_by(id=request.args.get('comment_id')).update(dict(content = request.form['content']))
+    db.session.commit()
+    comment = Comment.query.filter_by(id=request.args.get('comment_id')).first()
+
+    return jsonify(comment.selialize())
+
+@app.route('/comment/delete', methods=['DELETE'])
+def delete_comment():
+    comment = Comment.query.filter_by(id=request.args.get('comment_id')).first()
+    db.session.delete(comment)
+    db.session.commit()
 
     return jsonify(1)
