@@ -127,14 +127,16 @@ def add_comment():
             post_id = request.args.get('post_id'),
             content = request.form['content']
         )
+   
+    db.session.add(comment)
+    db.session.commit()
+    comment = Comment.query.order_by(Comment.id.desc()).first()
     data = {
         'user_id' : session['logged_in']["id"],
         'username' : session['logged_in']["username"],
-        'content' : request.form['content']
+        'content' : comment.content,
+        'id' : comment.id
     }
-    
-    db.session.add(comment)
-    db.session.commit()
 
     return jsonify(data)
 
