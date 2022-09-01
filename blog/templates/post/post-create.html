@@ -20,10 +20,13 @@
         </div>
         <div class="tag-selection-container row">
             <span class="posting-field font-weight-bold">タグ</span>
-            <select name="tag_id" class="tag-selection">
+            <select name="tag_id" class="create-tag-selection">
                 {% for tag in tags %}
                 <option value="{{ tag.id }}">{{ tag.name }}</option>
                 {% endfor %}
+            </select>
+            <select class="form-control col-2 mr-3 option-tag-3" required id="exampleFormControlSelect1" name="tag3">
+                <option value="-1" class="">選択</option>
             </select>
         </div>
         <div class="row create-post-date" style="display: none;">

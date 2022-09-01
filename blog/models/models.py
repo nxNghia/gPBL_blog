@@ -36,6 +36,9 @@ class Post(db.Model):
     deadline = db.Column(db.Date, nullable=True)
     finished = db.Column(db.Boolean, nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=True)
+    point = db.Column(db.Integer, nullable=False)
+    tag2 = db.Column(db.String(100), nullable=True)
+    tag3 = db.Column(db.String(100), nullable=True)
 
     def selialize(self):
         return {
@@ -47,11 +50,14 @@ class Post(db.Model):
             'user_id' : self.user_id,
             'deadline': self.deadline,
             'finished' : self.finished,
-            'room_id' : self.room_id
+            'room_id' : self.room_id,
+            'point': self.point,
+            'tag2': self.tag2,
+            'tag3': self.tag3
         }
 
     def __repr__(self):
-        return '<Posts id:{} title:{} content:{} tag_id:{} type:{} user_id:{} deadline:{} finished:{}>'.format(self.id, self.title, self.content, self.tag_id, self.type, self.user_id, self.deadline, self.finished)
+        return '<Posts id:{} title:{} content:{} tag_id:{} type:{} user_id:{} deadline:{} finished:{} point:{} tag2:{} tag3:{}>'.format(self.id, self.title, self.content, self.tag_id, self.type, self.user_id, self.deadline, self.finished, self.point, self.tag2, self.tag3)
 
 class Tag(db.Model):
     __tablename__ = 'tags'
