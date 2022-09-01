@@ -236,7 +236,7 @@ def searching():
             posts = db.session.query(Post, User, Tag).join(Tag, User).filter(Tag.name.contains(search_value)).order_by(Post.id.desc()).all()
 
             if len(posts) == 0:
-                posts = db.session.query(Post, User, Tag).join(Tag, User).filter(Post.tag2==search_value | Post.tag3==search_value).order_by(Post.id.desc()).all()
+                posts = db.session.query(Post, User, Tag).join(Tag, User).filter(Post.tag2.contains(search_value) | Post.tag3.contains(search_value)).order_by(Post.id.desc()).all()
 
             point = []
             userLike = []
