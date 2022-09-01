@@ -46,23 +46,33 @@ $(".btn-comment").click(function(){
         data: {
             "content" : content
         },
+        
         success: function (data) {
+            edit_url = "?comment_id=" + data['id']
             var html = `
-            <div class="d-flex mb-5">
-                        <div class="avatar col-3 d-flex flex-column text-center align-items-center">
-                            <img src="`+ $('.avatar-comment').attr("src") +`">
-                            <span class="mt-3 px-5 py-1">` + data['username'] +`</span>
-                        </div>
-                        <div class="content p-2 col-9">
-                            `+ data['content'] +`
-                        </div>
-                    </div>
+            <div class="block-comment-`+ data['id'] +`">
+            <div class="d-flex">
+                <div class="avatar col-3 d-flex flex-column text-center align-items-center">
+                    <img class="avatar-comment" src="`+ $('.avatar-comment').attr("src") +`" alt="avatar" />
+                    <span class="mt-3 px-5 py-1">`+ data['username'] +`</span>
+                </div>
+                <div class="content p-2 col-9">
+                    <p class="content-`+ data['id'] +`">`+ data['content'] +`</p>
+                    <textarea class="input-comment-`+ data['id'] +`" rows="4" style="display: none;" cols="80"></textarea>
+                </div>                       
+            </div>
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="javascript:void()" path="`+ $('.btn-edit-comment').attr("path")+ edit_url +`" style="display: none;" id="`+ data['id'] +`" class="save-comment save-comment-`+ data['id'] +`" >保存</a>
+                    <a href="javascript:void()"  style="margin-right: 20px;" id="`+ data['id'] +`" class="edit-comment edit-comment-`+ data['id'] +`" >編集</a>
+                    <a href="javascript:void()" id="`+ data['id'] +`" path="`+ $('.btn-delete-comment').attr("path")+ edit_url +`" class="delete-comment delete-comment-`+ data['id'] +`">削除</a>
+                </div>
+            </div>
             `;
             $(".text-comment" ).append(html);
             $(".input-comment").val("");
         },
         error: function () {
-            alert("Something wrong please try again!");
+            alert("エラーが発生しました!");
         },
     });
 });
@@ -267,7 +277,7 @@ $(".tag-3").on("change", function(){
 });
 
 //edit-comment
-$(".edit-comment").on("click", function(){
+$(document).on("click", ".edit-comment", function (event) {
     id = $(this).attr("id")
     $(this).hide()
     $(".delete-comment-" + id).hide()
@@ -277,7 +287,7 @@ $(".edit-comment").on("click", function(){
     $(".input-comment-" +id).show()
 });
 
-$(".save-comment ").on("click", function(){
+$(document).on("click", ".save-comment", function (event) {
     var csrf_token = "{{ csrf_token() }}";
     url = $(this).attr("path")
     id =  $(this).attr("id")
@@ -309,7 +319,7 @@ $(".save-comment ").on("click", function(){
 });
 
 
-$(".delete-comment ").on("click", function(){
+$(document).on("click", ".delete-comment", function (event) {
     var csrf_token = "{{ csrf_token() }}";
     url = $(this).attr("path")
     id =  $(this).attr("id")
@@ -356,7 +366,8 @@ $(".change-status-task input ").on("change", function(){
 });
 
 
-$(".checkbox-task ").on("change", function(){
+$(document).on("change", ".checkbox-task", function (event) {
+
     id = $(this).attr("id")
     url = $(this).attr("path")
     var csrf_token = "{{ csrf_token() }}";
@@ -395,7 +406,7 @@ $(".checkbox-task ").on("change", function(){
     });
 });
 
-$(".create-tag-select").on("change", function(){
+$(document).on("change", ".create-tag-select", function (event) {
     var csrf_token = "{{ csrf_token() }}";
     url = $(this).attr("path")
     url = url + "?tag_id=" + $(this).val()

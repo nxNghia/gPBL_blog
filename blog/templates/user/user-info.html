@@ -11,7 +11,7 @@
     <h1>プロフィール</h1>
 </div>
 
-<div class="container">
+<div class="container mb-5">
     <div class="basic-info">
         <img class="update-icon" alt="update-icon" src="{{ url_for('static', filename='icons/update-button.svg') }}" />
         <div class="header">
@@ -48,15 +48,15 @@
         </div>
     </div>
     
-    <div class="detail-info">
+    <div class="detail-info user-display-info">
         <div class="category-group">
             <div class="category">
                 <label>学年</label>
-                <span>{{ user_info.school_year }}</span>
+                <span class="text-dark font-weight-bold">{{ user_info.school_year }}</span>
             </div>
             <div class="category">
                 <label>性別</label>
-                <span>{{ user_info.gender }}</span>
+                <span class="text-dark font-weight-bold">{{ user_info.gender }}</span>
             </div>
         </div>
         <div class="category">
@@ -70,10 +70,9 @@
         <div class="category">
             <label>合計ポイント</label>
             <input id="user-point" hidden value="{{ user_info.point }}">
-            <span class="user-point-info" >{{ user_info.point }}</span>
+            <span class="user-point-info text-dark font-weight-bold" >{{ user_info.point }}</span>
         </div>
     </div>
-
     <div class="detail-info update-info" style="display: none;">
         <form action="{{ url_for('get_user') }}" method=post>
             <div class="category">
@@ -203,7 +202,6 @@
         <div class="title">
             <h1>投稿一覧</h1>
         </div>
-
         <div class="post-container">
             {% for index in range(0, length) %}
             <div class="post">
@@ -212,12 +210,19 @@
                         {{ posts[index]['Post'].title }}
                     </div>
                     <div class="cheer-info">
-                        <img src="{{ url_for('static', filename='icons/applause-icon.svg') }}" class="applause-icon" />
-                        <span class="cheer-point">{{ posts_point[index] }}</span>
+                        <img src="{{ url_for('static', filename='img/like.png') }}" style="width: 80px; height: 70px;" />
+                        <span class="cheer-point">{{ posts[index]['Post'].point }}</span>
                     </div>
                 </div>
-                <div class="tags-container">
-                    <div class="tag">{{ posts[index]['Tag'].name }}</div>
+                <div class="tags-container d-flex justify-content-between">
+                    <div class="tag">
+                        <span>{{ posts[index]['Tag'].name }}</span>
+                        <span>{{ posts[index]['Post'].tag2 }}</span>
+                        <span>{{ posts[index]['Post'].tag3 }}</span>
+                    </div>
+                    <div class="btn">
+                        <a style="font-size: 18px; font-weight: 600;" href="{{ url_for('detail_post', id=posts[index]['Post'].id ) }}">詳細</a>                        
+                    </div>
                 </div>
             </div>
             {% endfor %}

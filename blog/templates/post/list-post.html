@@ -47,11 +47,8 @@
                     </div>
                     <div class="post-title col-9 mb-3 d-flex flex-column">
                         <div class="d-flex">
-                            <div class="content p-2 col-9">
+                            <div class="content p-2 col-12">
                                 {{ posts[i]['Post'].title }}
-                            </div>
-                            <div class="btn-detail col-2 d-flex align-items-end">
-                                <a href="javascript:void(0)" class="btn px-5 py-1">{{ posts[i]['Tag'].name }}</a>
                             </div>
                         </div>
                         <div class="post-content mt-3 p-2">
@@ -59,10 +56,11 @@
                                 {{ posts[i]['Post'].content }}
                             </span>
                         </div>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between mt-2">
                             <div>
-                                <span class="px-5 py-1">{{ posts[i]['Post'].tag2 }}</span>
-                                <span class="px-5 py-1">{{ posts[i]['Post'].tag3 }}</span>
+                                <span class="px-3 py-1 btn">{{ posts[i]['Tag'].name }}</span>
+                                <span class="px-3 py-1 btn">{{ posts[i]['Post'].tag2 }}</span>
+                                <span class="px-3 py-1 btn">{{ posts[i]['Post'].tag3 }}</span>
                             </div>
                             <a href="{{ url_for('detail_post', id=posts[i]['Post'].id) }}">詳細</a>
                         </div>
