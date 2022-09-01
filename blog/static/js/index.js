@@ -72,7 +72,9 @@ $(".unlikee").click(function(){
     var csrf_token = "{{ csrf_token() }}";
     url = $(this).attr("path")
     var className = ".countLike-" + $(this).attr("action") 
+    id1 =  "#countLike-" + $(this).attr("action") 
     id = $(this).attr("action")
+    count = parseInt($(id1).val()) + parseInt(1)
 
     $.ajaxSetup({
         headers: {
@@ -85,7 +87,7 @@ $(".unlikee").click(function(){
         data: {
         },
         success: function (data) {
-            $(className).text(parseInt($(className).text()) + 1)
+            $(className).text(count)
             $(".icon-like-"+ id).show()
             $(".unlike-" + id).hide()
         },
@@ -358,6 +360,7 @@ $(".checkbox-task ").on("change", function(){
     id = $(this).attr("id")
     url = $(this).attr("path")
     var csrf_token = "{{ csrf_token() }}";
+    var point = $("#user-point").val()
 
     $.ajaxSetup({
         headers: {
@@ -370,7 +373,6 @@ $(".checkbox-task ").on("change", function(){
         data: {
         },
         success: function (data) {
-            console.log(data)
             $(".task-" + id).remove()
             html = `
             <div class="row task-`+ data["id"] +`">
@@ -383,6 +385,9 @@ $(".checkbox-task ").on("change", function(){
             </div>
             `
             $(".task-complete").append(html)
+            var newPoint = parseInt(point) + parseInt(data.point)
+            $(".user-point-info").text(newPoint)
+            $("#user-point").val(newPoint)
         },
         error: function () {
             alert("エラーが発生しました!");

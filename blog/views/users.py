@@ -324,19 +324,20 @@ def update_task():
     today = datetime.date.today()
     post = Post.query.filter(Post.id == request.args.get('post_id')).first()
     user = User.query.filter(User.id == post.user_id).first()
-    data = {
-        "id" : post.id,
-        "title" : post.title,
-        "deadline" : post.deadline.strftime("%Y-%m-%d")
-    }
     post1 = Post.query.filter(Post.id == request.args.get('post_id')).update(dict(finished = True))
 
     db.session.commit()
 
-
+    point = 0
     if (post.deadline >= today) :
-        print('plus')
+        point = 10
         user.point += 10
         db.session.commit()
+    data = {
+        "id" : post.id,
+        "title" : post.title,
+        "deadline" : post.deadline.strftime("%Y-%m-%d"),
+        "point" : point
+    }
 
     return jsonify(data)
