@@ -310,8 +310,18 @@ def update_task():
         "deadline" : post.deadline.strftime("%Y-%m-%d")
     }
     post1 = Post.query.filter(Post.id == request.args.get('post_id')).update(dict(finished = True))
-    if (post.deadline <= today) :
-        user = User.query.filter(User.id == post.user_id).update(dict(point = user.point + 10))
+
     db.session.commit()
+
+    print(user)
+
+    if (post.deadline >= today) :
+        print('plus')
+        user.point += 10
+        db.session.commit()
+
+    # print(user)
+        # return jsonify(1)
+        # user = User.query.filter(User.id == post.user_id).update(dict(point = user.point + 10))
 
     return jsonify(data)

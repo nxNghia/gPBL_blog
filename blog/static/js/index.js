@@ -368,6 +368,7 @@ $(".checkbox-task ").on("change", function(){
         data: {
         },
         success: function (data) {
+            console.log(data)
             $(".task-" + id).remove()
             html = `
             <div class="row task-`+ data["id"] +`">
