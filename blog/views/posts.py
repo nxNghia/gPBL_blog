@@ -21,7 +21,7 @@ def post_index():
         userLike.append(like)
     # Post order by point number
     
-    postPoints = db.session.query(Post, User, Tag).join(User, Tag).filter(Post.type==0, Post.room_id == None).order_by(Post.id.desc()).all()
+    postPoints = db.session.query(Post, User, Tag).join(User, Tag).filter(Post.type==0, Post.room_id == None).order_by(Post.point.desc()).all()
 
     point1 = []
     userLike1 = []
@@ -42,7 +42,7 @@ def create_post():
         room_id = request.args.get('room')
 
     if request.method == 'GET':
-        tags = Tag.query.all()
+        tags = Tag.query.filter(Tag.byUser == 0).filter(Tag.parent_tag == -1).all()
         return render_template('post/post-create.html', tags=tags, room_id=room_id)
     else:
         if request.form['type'] == '0':
@@ -145,8 +145,9 @@ def add_like():
     user = User.query.filter_by(id=post.user_id).first()
     userUpdate = User.query.filter_by(id=user.id).update(dict(point = user.point + 1))
     db.session.commit()
-
-
+    postUpdate = Post.query.filter_by(id=request.args.get('post_id')).update(dict(point = post.point + 1))
+    db.session.commit()
+    
     return jsonify(1)
 
 
