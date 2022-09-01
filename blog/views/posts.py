@@ -53,11 +53,15 @@ def create_post():
                 type = True,
                 user_id = session['logged_in']['id'],
                 deadline = datetime.strptime(request.form['deadline'], '%Y-%m-%d'),
-                finished = False
+                finished = False,
+                point = 0,
+                tag2 = request.form['custom-tag2'],
+                tag3 = request.form['custom-tag3']
             )
             db.session.add(post)
             db.session.commit()
         else:
+            print(request.form)
             post = Post(
                 title = request.form['title'],
                 content = request.form['content'],
@@ -65,7 +69,10 @@ def create_post():
                 type = False,
                 user_id = session['logged_in']['id'],
                 finished = False,
-                room_id = room_id
+                room_id = room_id,
+                tag2 = request.form['custom-tag2'],
+                tag3 = request.form['custom-tag3'],
+                point = 0
             )
             db.session.add(post)
             db.session.commit()
@@ -114,7 +121,6 @@ def detail_post(id):
     return render_template('post/detail.html', post=post, comments = comments, countLike = countLike, userLike = userLike)
 
 @app.route('/comment/add', methods=['POST'])
-@login_required
 def add_comment():
     comment = Comment(
             user_id = session['logged_in']["id"],
@@ -133,7 +139,6 @@ def add_comment():
     return jsonify(data)
 
 @app.route('/like/add', methods=['POST'])
-@login_required
 def add_like():
     like = Like(
             user_id = session['logged_in']["id"],
@@ -151,7 +156,6 @@ def add_like():
 
 
 @app.route('/comment/edit', methods=['POST'])
-@login_required
 def edit_comment():
     comment = Comment.query.filter_by(id=request.args.get('comment_id')).update(dict(content = request.form['content']))
     db.session.commit()
@@ -160,7 +164,6 @@ def edit_comment():
     return jsonify(comment.selialize())
 
 @app.route('/comment/delete', methods=['DELETE'])
-@login_required
 def delete_comment():
     comment = Comment.query.filter_by(id=request.args.get('comment_id')).first()
     db.session.delete(comment)

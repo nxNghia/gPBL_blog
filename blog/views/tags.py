@@ -4,7 +4,6 @@ from blog.models.models import Post, Tag, User, Comment, Like
 from blog.views.views import login_required
 
 @app.route('/tag-child', methods=['GET'])
-@login_required
 def tag_child():
     
     tags = db.session.query(Tag).filter(Tag.parent_tag == request.args.get('tag_id')).all()

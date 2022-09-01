@@ -168,7 +168,6 @@ def get_user():
             return redirect(url_for('get_user'))
 
 @app.route('/follow/add', methods=['POST'])
-@login_required
 def add_follow():
     follow = Follow(
             follower_id = session['logged_in']["id"],
@@ -181,7 +180,6 @@ def add_follow():
     return jsonify(1)
 
 @app.route('/follow/delete', methods=['DELETE'])
-@login_required
 def un_follow():
     follow = db.session.query(Follow).filter(Follow.user_id == request.args.get('user_id'), Follow.follower_id == session['logged_in']['id']).first()
     
@@ -191,7 +189,6 @@ def un_follow():
     return jsonify(1)
 
 @app.route('/search', methods=['GET'])
-@login_required
 def searching():
     search_value = request.args.get('search-box')
     search_type = request.args.get('search-type')
@@ -227,6 +224,10 @@ def searching():
             return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike)
         else:
             posts = db.session.query(Post, User, Tag).join(Tag, User).filter(Tag.name.contains(search_value)).all()
+
+            if len(posts) == 0:
+                posts = db.session.query(Post, User, Tag).join(Tag, User).filter(Post.tag2==search_value | Post.tag3==search_value).all()
+
             point = []
             userLike = []
             for post in posts:
@@ -313,15 +314,10 @@ def update_task():
 
     db.session.commit()
 
-    print(user)
 
     if (post.deadline >= today) :
         print('plus')
         user.point += 10
         db.session.commit()
-
-    # print(user)
-        # return jsonify(1)
-        # user = User.query.filter(User.id == post.user_id).update(dict(point = user.point + 10))
 
     return jsonify(data)

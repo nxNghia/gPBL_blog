@@ -149,6 +149,7 @@ $(".tag-1").on("change", function(){
     var csrf_token = "{{ csrf_token() }}";
     url = $(this).attr("path")
     url = url + "?tag_id=" + $(this).val()
+    console.log(url)
     if ($(".option-tag-1").attr("name") != "")
         name1 = $(".option-tag-1").attr("name")
     else  name1 = $(".tag-1").attr("name")
@@ -164,6 +165,7 @@ $(".tag-1").on("change", function(){
         type: "GET",
         data: {},
         success: function (data) {
+            console.log(data)
             html = ""
             if (data.length == 0) { 
                 $(".tag-1").attr("name", name1) 

@@ -58,7 +58,11 @@
                                 {{ posts[i]['Post'].content }}
                             </span>
                         </div>
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span class="px-5 py-1">{{ posts[i]['Post'].tag2 }}</span>
+                                <span class="px-5 py-1">{{ posts[i]['Post'].tag3 }}</span>
+                            </div>
                             <a href="{{ url_for('detail_post', id=posts[i]['Post'].id) }}">詳細</a>
                         </div>
                     </div>
