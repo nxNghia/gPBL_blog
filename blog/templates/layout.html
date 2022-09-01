@@ -67,7 +67,7 @@
             <a href="#" class="w3-bar-item">注目の投稿</a>
             <ul>
             {% for tag in session['tags'] %}
-                <li><a class="mb-3" href="#">{{ tag.name }}</a></li>
+                <li><a class="mb-3" href="{{ url_for('post_by_tag', id=tag.id) }}">{{ tag.name }}</a></li>
             {% endfor %}
             </ul>
         <a href="{{ url_for('user_ranking') }}" class="w3-bar-item">頑張っている人たち</a>
