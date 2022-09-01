@@ -215,7 +215,7 @@ def searching():
         return render_template('user/list-user.html', users=users, info=info, title = title)
     else:
         if search_type == '2':
-            posts = db.session.query(Post, Tag, User).join(Tag, User).filter(Post.title.contains(search_value) | Post.content.contains(search_value)).all()
+            posts = db.session.query(Post, Tag, User).join(Tag, User).filter(Post.title.contains(search_value) | Post.content.contains(search_value)).order_by(Post.id.desc()).all()
 
             point = []
             userLike = []
@@ -224,9 +224,19 @@ def searching():
                 point.append(len(_point_))
                 like = db.session.query(Like).filter(Like.post_id == post['Post'].id, Like.user_id == session["logged_in"]['id']).count()
                 userLike.append(like)
-            return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike)
+
+            postPoints = db.session.query(Post, Tag, User).join(Tag, User).filter(Post.title.contains(search_value) | Post.content.contains(search_value)).order_by(Post.point.desc()).all()
+
+            point1 = []
+            userLike1 = []
+            for post in postPoints:
+                _point_ = db.session.query(Like).filter(Like.post_id==post['Post'].id).all()
+                point1.append(len(_point_))
+                like = db.session.query(Like).filter(Like.post_id == post['Post'].id, Like.user_id == session["logged_in"]['id']).count()
+                userLike1.append(like)
+            return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike, postPoints=postPoints, point1=point1, length1=len(point1), userLike1 = userLike1)
         else:
-            posts = db.session.query(Post, User, Tag).join(Tag, User).filter(Tag.name.contains(search_value)).all()
+            posts = db.session.query(Post, User, Tag).join(Tag, User).filter(Tag.name.contains(search_value)).order_by(Post.id.desc()).all()
             point = []
             userLike = []
             for post in posts:
@@ -235,7 +245,16 @@ def searching():
                 like = db.session.query(Like).filter(Like.post_id == post['Post'].id, Like.user_id == session["logged_in"]['id']).count()
                 userLike.append(like)
 
-            return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike)
+            postPoints = db.session.query(Post, User, Tag).join(Tag, User).filter(Tag.name.contains(search_value)).order_by(Post.point.desc()).all()
+            point1 = []
+            userLike1 = []
+            for post in postPoints:
+                _point_ = db.session.query(Like).filter(Like.post_id==post['Post'].id).all()
+                point1.append(len(_point_))
+                like = db.session.query(Like).filter(Like.post_id == post['Post'].id, Like.user_id == session["logged_in"]['id']).count()
+                userLike1.append(like)
+
+            return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike, postPoints=postPoints, point1=point1, length1=len(point1), userLike1 = userLike1)
 
 @app.route('/list-following', methods=['GET'])
 @login_required
