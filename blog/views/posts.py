@@ -7,7 +7,7 @@ from blog.views import room
 
 @app.route('/post/index', methods=['GET'])
 def post_index():
-    posts = db.session.query(Post, User, Tag).join(User, Tag).filter(Post.type==0).all()
+    posts = db.session.query(Post, User, Tag).join(User, Tag).filter((Post.type==0) & (Post.room_id == None)).all()
     
     point = []
     userLike = []
@@ -55,7 +55,10 @@ def create_post():
             db.session.add(post)
             db.session.commit()
 
-    return redirect(url_for('post_index'))
+    if room_id == None:
+        return redirect(url_for('post_index'))
+    else:
+        return redirect(url_for('get_room', id=room_id))
 
 @app.route('/post/update/<int:id>', methods=['POST', 'GET'])
 def edit_post(id):
