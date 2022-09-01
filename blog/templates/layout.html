@@ -15,13 +15,13 @@
 {% block class%} {% endblock %}
 <nav class="header navbar navbar-expand-lg navbar-white bg-white">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto row col-12">
+        <ul class="navbar-nav mr-auto row col-12 align-items-center">
             <li class="nav-item menu col-1">
                 <div class="w3-teal ml-3" id="iconSidebar">
                     <span class="w3-button w3-teal w3-xlarge" onclick="w3_open()">☰</span>
                 </div>
             </li>
-            <li class="nav-item col-10 d-flex align-items-center text-center align-item-center justify-content-center">
+            <li class="nav-item col-9 d-flex align-items-center text-center align-item-center justify-content-center">
                 <form class="form-inline my-2 my-lg-0" action="{{ url_for('searching') }}" method=get>
                     <div class="search-input">
                         <img src="{{ url_for('static', filename='img/search.svg') }}">
@@ -34,6 +34,7 @@
                     </select>
                 </form>
             </li>
+            <li class="nav-item dropdown col-1">{{ session['logged_in']['username'] }}</li>
             <li class="nav-item dropdown col-1 d-flex justify-content-end">
                 <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% if session['logged_in']['gender'] == 1%}

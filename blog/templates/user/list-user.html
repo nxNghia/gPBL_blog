@@ -49,7 +49,7 @@
                         <div class="tag-user mt-2 d-flex justify-content-end align-content-center align-items-center">
                             <span class="tag-title">力を入れたい科目</span>
                             {% for tag in user.tags %}
-                                <span class="item py-1 px-2">{{ tag.name }}</span>
+                                <a href="{{ url_for('user_post_by_tag', user_id=user.user.id, tag_value=tag.name) }}" class="item py-1 px-2">{{ tag.name }}</a>
                             {% endfor %}
                         </div>
                     </li>
