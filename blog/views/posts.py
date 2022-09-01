@@ -56,7 +56,10 @@ def create_post():
             db.session.commit()
 
     if room_id == None:
-        return redirect(url_for('post_index'))
+        if request.form['type'] == 1:
+            return redirect(url_for('post_index'))
+        else:
+            return redirect(url_for('get_user'))
     else:
         return redirect(url_for('get_room', id=room_id))
 
