@@ -5,7 +5,7 @@
 
 {% block body %}
 <div class="create-form">
-    <form action="{{ url_for('create_post', room=room_id) }}" method=post>
+    <form action="{{ url_for('create_post', room=room_id) }}" method=post autocomplete="off">
         <select name="type" class="create-select-type">
             <option value="1">投稿</option>
             <option value="0">タスク</option>
@@ -21,7 +21,7 @@
         <div class="tag-selection-container row">
             <span class="posting-field font-weight-bold">タグ</span>
             <div class="d-flex">
-                <select path="{{ url_for('tag_child') }}" class="tag-selection create-tag-select mr-1">
+                <select path="{{ url_for('tag_child') }}" class="tag-selection create-tag-select mr-1" name="parent_tag">
                     {% for tag in tags %}
                         <option value="{{ tag.id }}">{{ tag.name }}</option>
                     {% endfor %}
@@ -29,17 +29,13 @@
                 <select name="tag_id" class="form-control col-2 mr-3 option-create" required id="exampleFormControlSelect1" name="tag3">
                     <option value="-1" class="">選択</option>
                 </select>
+                <input class="mr-5" name="custom-tag2" type="text" placeholder="ユーザが付けるタグ"/>
+                <input class="mr-5" name="custom-tag3" type="text" placeholder="ユーザが付けるタグ"/>
             </div>
         </div>
         <div class="row create-post-date" style="display: none;">
             <span class="posting-field font-weight-bold">日付</span>
             <input type="date" class="date-selecting-box" name="deadline" />
-        </div>
-        <div>
-            <input name="custom-tag2" type="text"/>
-        </div>
-        <div>
-            <input name="custom-tag3" type="text"/>
         </div>
         <div class="button-group">
             <input type="submit" value="投稿" class="save-btn" />

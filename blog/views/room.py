@@ -64,7 +64,8 @@ def exit_room():
 def get_room():
     if request.method == 'GET':
         id = request.args.get('id')
-        posts = db.session.query(Post, User, Tag).join(User, Tag).filter(Post.type==0, Post.room_id==id).all()
+        room_info = db.session.query(Room).filter(Post.id==id).first()
+        posts = db.session.query(Post, User, Tag).join(User, Tag).filter(Post.type==0, Post.room_id==id).order_by(Post.id.desc()).all()
         point = []
         userLike = []
         for post in posts:
@@ -75,4 +76,4 @@ def get_room():
 
         userRoom = db.session.query(RoomUser).filter(RoomUser.user_id==session['logged_in']['id'], RoomUser.room_id==id).all()
 
-        return render_template('room/detail-room.html', posts=posts, length=len(posts), id=id, userLike = userLike, point=point, joined=len(userRoom))
+        return render_template('room/detail-room.html', posts=posts, length=len(posts), id=id, userLike = userLike, point=point, joined=len(userRoom), room_info=room_info)

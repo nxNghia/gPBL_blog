@@ -45,11 +45,16 @@ def create_post():
         tags = Tag.query.filter(Tag.byUser == 0).filter(Tag.parent_tag == -1).all()
         return render_template('post/post-create.html', tags=tags, room_id=room_id)
     else:
+        if request.form['tag_id'] == '-1':
+            tag_id = request.form['parent_tag']
+        else:
+            tag_id = request.form['tag_id']
+
         if request.form['type'] == '0':
             post = Post(
                 title = request.form['title'],
                 content = request.form['content'],
-                tag_id = request.form['tag_id'],
+                tag_id = tag_id,
                 type = True,
                 user_id = session['logged_in']['id'],
                 deadline = datetime.strptime(request.form['deadline'], '%Y-%m-%d'),
@@ -65,7 +70,7 @@ def create_post():
             post = Post(
                 title = request.form['title'],
                 content = request.form['content'],
-                tag_id = request.form['tag_id'],
+                tag_id = tag_id,
                 type = False,
                 user_id = session['logged_in']['id'],
                 finished = False,
