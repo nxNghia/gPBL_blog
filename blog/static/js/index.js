@@ -387,3 +387,43 @@ $(".checkbox-task ").on("change", function(){
         },
     });
 });
+
+$(".create-tag-select").on("change", function(){
+    var csrf_token = "{{ csrf_token() }}";
+    url = $(this).attr("path")
+    url = url + "?tag_id=" + $(this).val()
+    name2 = $(".create-tag-select").attr("name")
+    if ($(".option-create").attr("name") != "")
+        name2 = $(".option-create").attr("name")
+
+    $(".option-create").children(".post-create-option").remove()
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": csrf_token,
+        },
+    });
+    $.ajax({
+        url: url,
+        type: "GET",
+        data: {},
+        success: function (data) {
+            html = ""
+            if (data.length == 0) { 
+                $(".create-tag-select").attr("name", name2) 
+                $(".option-create").attr("name", "") 
+            } else {
+                for (let i = 0 ; i< data.length ; i++) {
+                    html = html + `
+                    <option class="post-create-option" value="` + data[i]["id"]+`">`+ data[i]['name']+`</option>`
+                }
+                $(".create-tag-select").attr("name", "") 
+                $(".option-create").attr("name", name2) 
+                $(".option-create").append(html)
+            } 
+        },
+        error: function () {
+            alert("エラーが発生しました!");
+        },
+    });
+});
