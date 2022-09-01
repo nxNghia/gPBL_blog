@@ -1,6 +1,15 @@
 from flask import request, redirect, url_for, render_template, flash, session
-from blog import app, db
+from blog import app, db, views
 from blog.models.models import User, Tag, UserTag
+from functools import wraps
+
+def login_required(view):
+    @wraps(view)
+    def inner(*args, **kwargs):
+        if not session.get('logged_in'):
+            return redirect(url_for('login'))
+        return view(*args, **kwargs)
+    return inner
 
 @app.route('/')
 def show_entries():
@@ -36,7 +45,7 @@ def login():
                     "name": tag.name
                 })
             session['tags'] = tags
-            return redirect(url_for('get_user'))
+            return redirect(url_for('post_index'))
     return render_template('login.html')
 
 

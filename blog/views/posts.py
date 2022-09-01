@@ -2,10 +2,12 @@ from flask import request, redirect, url_for, render_template, flash, session, j
 from blog import app, db
 from blog.models.models import Post, Tag, User, Comment, Like
 from datetime import datetime
+from blog.views.views import login_required
 
 from blog.views import room
 
 @app.route('/post/index', methods=['GET'])
+@login_required
 def post_index():
     posts = db.session.query(Post, User, Tag).join(User, Tag).filter((Post.type==0) & (Post.room_id == None)).all()
     
@@ -20,6 +22,7 @@ def post_index():
     return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike)
 
 @app.route('/post/create', methods=['GET', 'POST'])
+@login_required
 def create_post():
     if request.args.get('room') == None :
         room_id = None
@@ -64,6 +67,7 @@ def create_post():
         return redirect(url_for('get_room', id=room_id))
 
 @app.route('/post/update/<int:id>', methods=['POST', 'GET'])
+@login_required
 def edit_post(id):
     if request.method == 'GET':
         post = db.session.query(Post).filter(Post.id==id).first()
@@ -80,6 +84,7 @@ def edit_post(id):
             return redirect(url_for('edit_post', id=id))
 
 @app.route('/post/delete/<int:id>', methods=['GET'])
+@login_required
 def delete_post(id):
     post = Post.query.get(id)
     db.session.delete(post)
@@ -97,6 +102,7 @@ def detail_post(id):
     return render_template('post/detail.html', post=post, comments = comments, countLike = countLike, userLike = userLike)
 
 @app.route('/comment/add', methods=['POST'])
+@login_required
 def add_comment():
     comment = Comment(
             user_id = session['logged_in']["id"],
@@ -115,6 +121,7 @@ def add_comment():
     return jsonify(data)
 
 @app.route('/like/add', methods=['POST'])
+@login_required
 def add_like():
     like = Like(
             user_id = session['logged_in']["id"],
@@ -132,6 +139,7 @@ def add_like():
 
 
 @app.route('/comment/edit', methods=['POST'])
+@login_required
 def edit_comment():
     comment = Comment.query.filter_by(id=request.args.get('comment_id')).update(dict(content = request.form['content']))
     db.session.commit()
@@ -140,6 +148,7 @@ def edit_comment():
     return jsonify(comment.selialize())
 
 @app.route('/comment/delete', methods=['DELETE'])
+@login_required
 def delete_comment():
     comment = Comment.query.filter_by(id=request.args.get('comment_id')).first()
     db.session.delete(comment)
