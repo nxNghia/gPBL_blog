@@ -34,7 +34,13 @@
             <li class="py-2 px-3 mb-3">
                 <div class="d-flex row p-3">
                     <div class="avatar col-3 d-flex flex-column text-center align-items-center">
-                        <img src="{{ url_for('static', filename='img/man-avatar.png') }}">
+                        {% if posts[i]['User'].gender == 1%}
+                            <img class="avatar"src="{{ url_for('static', filename='img/man.png') }}" alt="avatar" />
+                        {% elif posts[i]['User'].gender == 0 %}
+                            <img class="avatar" src="{{ url_for('static', filename='img/woman.png') }}" alt="avatar" />
+                        {%else%}
+                            <img class="avatar" src="{{ url_for('static', filename='img/nosex.png') }}" alt="avatar" />
+                        {%endif%}
                         <span class="mt-3 px-5 py-1">{{ posts[i]['User'].username }}</span>
                         <div class="post-point d-flex flex-column mt-3">
                             {% if userLike[i] > 0 %}
