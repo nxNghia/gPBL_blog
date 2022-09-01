@@ -58,6 +58,7 @@ ul .menu {
 
 .header select {
     width: 100px;
+    height: 48px;
 }
 
 .header form .search-input {

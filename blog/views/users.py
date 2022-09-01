@@ -2,6 +2,7 @@ from flask import request, redirect, url_for, render_template, flash, session, j
 from blog import app, db
 from blog.models.models import Like, Post, User, Tag, UserTag, Follow
 from blog.views.views import login_required
+import datetime
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
@@ -101,7 +102,7 @@ def get_user():
     if request.method == 'GET':
         userInfo = db.session.query(User).filter(User.id == userId).first()
         tags = db.session.query(Tag).all()
-        posts = db.session.query(Post, Tag).join(Tag).filter(Post.user_id== userId, Post.type==0, Tag.id==Post.tag_id).all()
+        posts = db.session.query(Post, Tag).join(Tag).filter(Post.user_id== userId, Post.type==0, Tag.id==Post.tag_id, Post.room_id == None).all()
         userFollow = db.session.query(Follow).filter(Follow.user_id == userId, Follow.follower_id == session['logged_in']['id']).count()
 
         posts_point = []
@@ -296,5 +297,21 @@ def user_ranking():
             "user": user,
             "tags": _tags_
         })
-
     return render_template('user/list-user.html', users=users, info=info, title = title)
+
+@app.route('/update/task', methods=['POST'])
+def update_task():
+    today = datetime.date.today()
+    post = Post.query.filter(Post.id == request.args.get('post_id')).first()
+    user = User.query.filter(User.id == post.user_id).first()
+    data = {
+        "id" : post.id,
+        "title" : post.title,
+        "deadline" : post.deadline.strftime("%Y-%m-%d")
+    }
+    post1 = Post.query.filter(Post.id == request.args.get('post_id')).update(dict(finished = True))
+    if (post.deadline <= today) :
+        user = User.query.filter(User.id == post.user_id).update(dict(point = user.point + 10))
+    db.session.commit()
+
+    return jsonify(data)

@@ -27,7 +27,7 @@
                         <img src="{{ url_for('static', filename='img/search.svg') }}">
                         <input class="mr-3 px-5 py-4" type="search" aria-label="Search" name="search-box">
                     </div>
-                    <select name="search-type" class="px-2 py-4">
+                    <select name="search-type" class="px-2 search-select">
                         <option value="0">ユーザ名</option>
                         <option value="1">タグ</option>
                         <option value="2">キーワード</option>
@@ -70,7 +70,7 @@
                 <li><a class="mb-3" href="{{ url_for('post_by_tag', id=tag.id) }}">{{ tag.name }}</a></li>
             {% endfor %}
             </ul>
-        <a href="{{ url_for('user_ranking') }}" class="w3-bar-item">頑張っている人たち</a>
+        <a href="#" class="w3-bar-item">頑張っている人たち</a>
 
         </div>
         

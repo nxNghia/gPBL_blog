@@ -115,7 +115,7 @@ $(".detail-follow").click(function(){
             $(".detail-unfollow" ).show();
         },
         error: function () {
-            alert("Something wrong please try again!");
+            alert("エラーが発生しました!");
         },
     });
 });
@@ -139,7 +139,7 @@ $(".detail-unfollow").click(function(){
             $(".detail-unfollow" ).hide();
         },
         error: function () {
-            alert("Something wrong please try again!");
+            alert("エラーが発生しました!");
         },
     });
 });
@@ -179,7 +179,7 @@ $(".tag-1").on("change", function(){
             } 
         },
         error: function () {
-            alert("Something wrong please try again!");
+            alert("エラーが発生しました!");
         },
     });
 });
@@ -218,7 +218,7 @@ $(".tag-2").on("change", function(){
             } 
         },
         error: function () {
-            alert("Something wrong please try again!");
+            alert("エラーが発生しました!");
         },
     });
 });
@@ -257,7 +257,7 @@ $(".tag-3").on("change", function(){
             } 
         },
         error: function () {
-            alert("Something wrong please try again!");
+            alert("エラーが発生しました!");
         },
     });
 });
@@ -299,7 +299,7 @@ $(".save-comment ").on("click", function(){
             $(".content-" + id).show()
         },
         error: function () {
-            alert("Something wrong please try again!");
+            alert("エラーが発生しました!");
         },
     });
 });
@@ -315,7 +315,7 @@ $(".delete-comment ").on("click", function(){
             "X-CSRF-TOKEN": csrf_token,
         },
     });
-    if (confirm('Are you sure you want to delete this?')) {
+    if (confirm('削除しますか?')) {
         $.ajax({
             url: url,
             type: "DELETE",
@@ -325,9 +325,64 @@ $(".delete-comment ").on("click", function(){
             $(".block-comment-" +id).remove()
             },
             error: function () {
-                alert("Something wrong please try again!");
+                alert("エラーが発生しました!");
             },
         });
     }
 });
 
+$(".form-check input ").on("change", function(){
+    if ($('input[name=radio-post]:checked').val() == 1) {
+        $(".post-created-at").show()
+        $(".post-point").hide()
+    } else {
+        $(".post-created-at").hide()
+        $(".post-point").show()
+    } 
+});
+
+$(".change-status-task input ").on("change", function(){
+    if ($('input[name=task-status]:checked').val() == 1) {
+        $(".task-notcomplete").show()
+        $(".task-complete").hide()
+    } else {
+        $(".task-notcomplete").hide()
+        $(".task-complete").show()
+    } 
+});
+
+
+$(".checkbox-task ").on("change", function(){
+    id = $(this).attr("id")
+    url = $(this).attr("path")
+    var csrf_token = "{{ csrf_token() }}";
+
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": csrf_token,
+        },
+    });
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+        },
+        success: function (data) {
+            $(".task-" + id).remove()
+            html = `
+            <div class="row task-`+ data["id"] +`">
+                <div class="task-title">
+                    `+ data["title"] +`
+                </div>
+                <div class="deadline">
+                    `+ data["deadline"] +`
+                </div>
+            </div>
+            `
+            $(".task-complete").append(html)
+        },
+        error: function () {
+            alert("エラーが発生しました!");
+        },
+    });
+});
