@@ -1,6 +1,7 @@
 from flask import request, redirect, url_for, render_template, flash, session, jsonify
 from blog import app, db
 from blog.models.models import Like, Post, User, Tag, UserTag, Follow
+from blog.views.views import login_required
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
@@ -67,6 +68,7 @@ def signup():
         return render_template('signin.html', tags=tags)
 
 @app.route('/user/index', methods=['GET'])
+@login_required
 def user_index():
     title = "ユーザリスト"
     users = db.session.query(User).filter(User.id != session['logged_in']['id']).all()
@@ -87,6 +89,7 @@ def user_index():
     return render_template('user/list-user.html', users=users, info=info, title = title)
 
 @app.route('/user', methods=['GET', 'POST'])
+@login_required
 def get_user():
     if request.args.get('user_id') == None :
         userId = session['logged_in']['id']
@@ -164,6 +167,7 @@ def get_user():
             return redirect(url_for('get_user'))
 
 @app.route('/follow/add', methods=['POST'])
+@login_required
 def add_follow():
     follow = Follow(
             follower_id = session['logged_in']["id"],
@@ -176,6 +180,7 @@ def add_follow():
     return jsonify(1)
 
 @app.route('/follow/delete', methods=['DELETE'])
+@login_required
 def un_follow():
     follow = db.session.query(Follow).filter(Follow.user_id == request.args.get('user_id'), Follow.follower_id == session['logged_in']['id']).first()
     
@@ -185,6 +190,7 @@ def un_follow():
     return jsonify(1)
 
 @app.route('/search', methods=['GET'])
+@login_required
 def searching():
     search_value = request.args.get('search-box')
     search_type = request.args.get('search-type')
@@ -231,6 +237,7 @@ def searching():
             return render_template('post/list-post.html', posts=posts, point=point, length=len(point), userLike = userLike)
 
 @app.route('/list-following', methods=['GET'])
+@login_required
 def list_following():
     title = "フォロイングリスト"
     users = db.session.query(User, Follow).filter(Follow.follower_id == session['logged_in']['id'], Follow.user_id == User.id).all()
@@ -251,6 +258,7 @@ def list_following():
     return render_template('user/list-user.html', users=users, info=info, title = title)
 
 @app.route('/list-follower', methods=['GET'])
+@login_required
 def list_follower():
     title = "フォロワーリスト"
     users = db.session.query(User, Follow).filter(Follow.user_id == session['logged_in']['id'], Follow.follower_id == User.id).all()
@@ -271,6 +279,7 @@ def list_follower():
     return render_template('user/list-user.html', users=users, info=info, title = title)
 
 @app.route('/user/ranking', methods=['GET'])
+@login_required
 def user_ranking():
     title = "頑張っている人"
     users = db.session.query(User).order_by(User.point.desc()).all()

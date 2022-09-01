@@ -1,8 +1,10 @@
 from flask import request, redirect, url_for, render_template, flash, session, jsonify
 from blog import app, db
 from blog.models.models import Room, RoomUser, User, Post, Tag, Like
+from blog.views.views import login_required
 
 @app.route('/room', methods=['GET'])
+@login_required
 def room_index():
     if request.method == 'GET':
         rooms = db.session.query(Room, User).join(User).all()
@@ -10,6 +12,7 @@ def room_index():
         return render_template('room/list-room.html', rooms=rooms)
 
 @app.route('/room/create', methods=['GET', 'POST'])
+@login_required
 def room_create():
     if request.method == 'GET':
         return render_template('room/create-room.html')
@@ -26,6 +29,7 @@ def room_create():
         return redirect(url_for('room_index'))
 
 @app.route('/room/join', methods=['POST'])
+@login_required
 def join_room():
     room_id = request.args.get('room')
     user_id = request.args.get('user_id')
@@ -43,6 +47,7 @@ def join_room():
     return redirect(url_for('get_room', id=room_id))
 
 @app.route('/room/exit', methods=['POST'])
+@login_required
 def exit_room():
     room_id = request.args.get('room')
     user_id = request.args.get('user_id')
@@ -55,6 +60,7 @@ def exit_room():
     return redirect(url_for('room_index'))
 
 @app.route('/room/detail', methods=['GET'])
+@login_required
 def get_room():
     if request.method == 'GET':
         id = request.args.get('id')
