@@ -24,9 +24,10 @@
                             {% if userLike > 0 %}
                                 <img src="{{ url_for('static', filename='img/like.png') }}" class="applause-icon mb-2" />
                             {% else %}
-                                <img action="{{ post['Post'].id }}" path="{{ url_for('add_like', post_id = post['Post'].id ) }}" src="{{ url_for('static', filename='img/unlike.png') }}" class="applause-icon mb-2 unlike" />
-                                <img src="{{ url_for('static', filename='img/like.png') }}" style="display: none;" class="applause-icon mb-2 icon-like" />
+                            <img action="{{ post['Post'].id  }}" path="{{ url_for('add_like', post_id = post['Post'].id ) }}" src="{{ url_for('static', filename='img/unlike.png') }}" class="applause-icon mb-2 unlikee unlike-{{ post['Post'].id }}" />
+                            <img src="{{ url_for('static', filename='img/like.png') }}" id="{{ post['Post'].id}}"style="display: none;" class="applause-icon mb-2 icon-like-{{post['Post'].id}}" />
                             {% endif %}
+                            <input hidden value="{{ countLike }}" id="countLike-{{ post['Post'].id }}">
                             <p><span value="{{ countLike }}" class="countLike-{{ post['Post'].id }}">{{ countLike }}</span> pt</p>
                         </div>
                     </div>

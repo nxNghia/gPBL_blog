@@ -69,7 +69,8 @@
         </div>
         <div class="category">
             <label>合計ポイント</label>
-            <span>{{ user_info.point }}</span>
+            <input id="user-point" hidden value="{{ user_info.point }}">
+            <span class="user-point-info" >{{ user_info.point }}</span>
         </div>
     </div>
 
