@@ -37,13 +37,18 @@ class Post(db.Model):
     finished = db.Column(db.Boolean, nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=True)
 
-    # def __init__(self, data):
-    #     """
-    #     Class constructor
-    #     """
-    #     self.content = data.get('content')
-    #     self.tag_id = data.get('tag_id')
-    #     self.type = data.get('type')
+    def selialize(self):
+        return {
+            'id' : self.id,
+            'title': self.title,
+            'content': self.content,
+            'tag_id' : self.tag_id,
+            'type' : self.type,
+            'user_id' : self.user_id,
+            'deadline': self.deadline,
+            'finished' : self.finished,
+            'room_id' : self.room_id
+        }
 
     def __repr__(self):
         return '<Posts id:{} title:{} content:{} tag_id:{} type:{} user_id:{} deadline:{} finished:{}>'.format(self.id, self.title, self.content, self.tag_id, self.type, self.user_id, self.deadline, self.finished)
