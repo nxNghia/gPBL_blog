@@ -256,3 +256,8 @@
     border-radius: 20px;
     color: #FFFFFF;
 }
+
+.post-container {
+    max-height: 500px;
+    overflow: auto;
+}
