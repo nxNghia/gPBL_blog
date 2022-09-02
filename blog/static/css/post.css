@@ -39,6 +39,7 @@ body {
     margin-right: 20px;
     margin-bottom: 10px;
     text-align: center;
+    border-radius: 10px;
 }
 
 .cancel-btn {
@@ -59,6 +60,7 @@ body {
     height: 30px;
     border: none;
     margin: 0px 10px;
+    border-radius: 10px;
 }
 
 textarea {

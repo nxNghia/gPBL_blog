@@ -78,6 +78,14 @@
     width: 200px;
 }
 
+.button-group > input {
+    border-radius: 20px;
+    color: #FFFFFF;
+    background-color: #12B5BF;
+    border: none;
+    width: 200px;
+}
+
 .category,
 .category-group {
     display: flex;
@@ -255,9 +263,19 @@
     background-color: #12B5BF;
     border-radius: 20px;
     color: #FFFFFF;
+    width: 150px;
+    text-align: center;
 }
 
 .post-container {
     max-height: 500px;
     overflow: auto;
+}
+
+.btn-edit > input {
+    border-radius: 20px;
+    color: #FFFFFF;
+    background-color: #12B5BF;
+    border: none;
+    width: 150px;
 }
