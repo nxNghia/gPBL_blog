@@ -64,14 +64,14 @@
 <div class="w3-sidebar w3-bar-block w3-border-right menu-item" style="display:none; width: 300px;" id="mySidebar">
     <div class="d-flex flex-column">
         <span onclick="w3_close()" class="w3-large text-right mr-4"> &times;</span>
-        <div class="d-flex flex-column pl-5" style="gap: 25px;">
+        <div class="d-flex flex-column pl-5" style="gap: 20px;">
             <a href="{{ url_for('post_index') }}" class="w3-bar-item">ホームページ</a>
             <a href="{{ url_for('create_post') }}" class="w3-bar-item">新規投稿</a>
             <a href="{{ url_for('room_index') }}" class="w3-bar-item">ルーム</a>
             <a href="#" class="w3-bar-item">注目の投稿</a>
             <ul>
             {% for tag in session['tags'] %}
-                <li><a class="mb-3" href="{{ url_for('post_by_tag', id=tag.id) }}">{{ tag.name }}</a></li>
+                <li class="mb-3"><a style="color:#29963B; direction: none;" href="{{ url_for('post_by_tag', id=tag.id) }}">{{ tag.name }}</a></li>
             {% endfor %}
             </ul>
         <a href="{{ url_for('user_ranking') }}" class="w3-bar-item">頑張っている人たち</a>

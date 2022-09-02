@@ -191,6 +191,7 @@ def un_follow():
     return jsonify(1)
 
 @app.route('/search', methods=['GET'])
+@login_required
 def searching():
     search_value = request.args.get('search-box')
     search_type = request.args.get('search-type')
