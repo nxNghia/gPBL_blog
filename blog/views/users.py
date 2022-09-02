@@ -103,7 +103,7 @@ def get_user():
     tagUser = db.session.query(Tag, UserTag).filter(UserTag.tag_id == Tag.id).filter(UserTag.user_id == userId).all()
     if request.method == 'GET':
         userInfo = db.session.query(User).filter(User.id == userId).first()
-        tags = db.session.query(Tag).all()
+        tags = db.session.query(Tag).filter(Tag.parent_tag != -1).all()
         posts = db.session.query(Post, Tag).join(Tag).filter(Post.user_id== userId, Post.type==0, Tag.id==Post.tag_id, Post.room_id == None).all()
         userFollow = db.session.query(Follow).filter(Follow.user_id == userId, Follow.follower_id == session['logged_in']['id']).count()
 
