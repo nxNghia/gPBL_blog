@@ -25,10 +25,10 @@
                 <img src="{{ url_for('static', filename='img/logo.png') }}"/>
             </li>
             <li class="nav-item col-8 d-flex align-items-center text-center align-item-center justify-content-center">
-                <form class="form-inline my-2 my-lg-0" action="{{ url_for('searching') }}" method=get>
+                <form class="form-inline my-2 my-lg-0" action="{{ url_for('searching') }}" method=get autocomplete="off">
                     <div class="search-input">
                         <img src="{{ url_for('static', filename='img/search.svg') }}">
-                        <input class="mr-3 px-5 py-4" type="search" aria-label="Search" name="search-box">
+                        <input class="mr-3 px-5 py-4" style="width: 700px;" type="search" aria-label="Search" name="search-box">
                     </div>
                     <select name="search-type" class="px-2 search-select">
                         <option value="0">ユーザ名</option>
