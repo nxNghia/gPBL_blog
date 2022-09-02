@@ -56,7 +56,15 @@
             </div>
             <div class="category">
                 <label>性別</label>
-                <span class="text-dark font-weight-bold">{{ user_info.gender }}</span>
+                <span class="text-dark font-weight-bold">
+                    {% if user_info.gender == 1 %}
+                        男
+                    {% elif user_info.gender == 0%}
+                        女
+                    {% else %}
+                        非公開
+                    {%endif%}
+                </span>
             </div>
         </div>
         <div class="category">
@@ -104,39 +112,40 @@
             </div>
             <div class="category">
                 <label>力を入れたい科目</label>
-                <div>
-                    <select name="tag1" class="form-select" aria-label="Default select example">
-                        {% for sub_tag in tags %}
-                            {% if sub_tag.id == tagUser[0]['Tag'].id %}
-                                <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
-                            {% else %}
-                                <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                    <select name="tag2" class="form-select" aria-label="Default select example">
-                        {% for sub_tag in tags %}
-                            {% if sub_tag.id == tagUser[1]['Tag'].id %}
-                                <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
-                            {% else %}
-                                <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                    <select name="tag3" class="form-select" aria-label="Default select example">
-                        {% for sub_tag in tags %}
-                            {% if sub_tag.id == tagUser[2]['Tag'].id %}
-                                <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
-                            {% else %}
-                                <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                    
+                <div style="width: 80%;">
+                    <div class="form-group d-flex justify-content-start row">
+                        <select name="tag1" class="form-control col-3 mr-2" aria-label="Default select example">
+                            {% for sub_tag in tags %}
+                                {% if sub_tag.id == tagUser[0]['Tag'].id %}
+                                    <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
+                                {% else %}
+                                    <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select name="tag2" class="form-control col-3 mr-2" aria-label="Default select example">
+                            {% for sub_tag in tags %}
+                                {% if sub_tag.id == tagUser[1]['Tag'].id %}
+                                    <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
+                                {% else %}
+                                    <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select name="tag3" class="form-control col-3 mr-2" aria-label="Default select example">
+                            {% for sub_tag in tags %}
+                                {% if sub_tag.id == tagUser[2]['Tag'].id %}
+                                    <option value="{{ sub_tag.id }}" selected>{{ sub_tag.name }}</option>
+                                {% else %}
+                                    <option value="{{ sub_tag.id }}">{{ sub_tag.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>    
                 </div>
             </div>
             <div class="d-flex btn-edit justify-content-center">
-                <input type="submit" class="edit-user-submit mr-2 px-3 py-2" value="設定" />
+                <input style="color: #fff; background-color: #12B5BF; border-radius: 20px; border: none;" type="submit" class="edit-user-submit mr-2 px-3 py-2" value="設定" />
                 <a class="px-3 py-2 edit-cancel" href="javascript::void(0)">キャンセル</a>
             </div>
         </form>
