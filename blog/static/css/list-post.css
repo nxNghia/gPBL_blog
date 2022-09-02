@@ -1,6 +1,6 @@
 .list-post {
-    background-image: url('/static/img/background3.jpg');
-    background-repeat: no-repeat;
+    background-image: url('/static/img/background3.png');
+    background-repeat: repeat;
     background-position: center;
 }
 

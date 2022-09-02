@@ -1,5 +1,5 @@
 html {
-    background-image: url('../img/background2.jpg');
+    background-image: url('../img/background2.png');
 }
 
 body {
@@ -9,6 +9,11 @@ body {
 .create-form {
     width: 900px;
     margin: auto;
+    background-color: rgba(100, 100, 100, 0.5);
+    padding: 10px;
+    padding-left: 40px;
+    border-radius: 20px;
+    margin-bottom: 20px;
 }
 .row {
     display: flex;
